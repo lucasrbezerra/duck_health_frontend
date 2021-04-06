@@ -1,0 +1,22 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+ 
+:root {
+  --bg: #ebf2f5;
+  --border: #D3E2E5;
+  --bg-card: white;  
+  --blue-sidebar: #15C3D6;
+  --blue-button: #12AFCB; 
+  --blue-text: #2E4A7D;
+  --blue-buttom-sidebar: #2E4A7D;
+  --linear-gradient-primary: #ffd666;
+  --linear-gradient-secundary: rgba(255, 214, 102, 0.5);
+}  
+ 
+body { 
+  font-family: "Nunito", sans-serif;
+  background: var(--bg);
+}

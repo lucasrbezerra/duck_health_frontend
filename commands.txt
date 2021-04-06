@@ -1,0 +1,8 @@
+yarn create react-app duck_healthy
+
+yarn add react-router-dom
+
+
+start the project:
+
+yarn start
