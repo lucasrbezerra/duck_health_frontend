@@ -1,9 +1,12 @@
 import React from "react";
 import styles from "../styles/components/Sidebar.module.css";
-import { NavLink } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Sidebar(props) {
-  const { mode, patientClick, doctorClick } = props;
+  const { mode } = props;
+
+  var location = useLocation();
+  console.log(location.pathname);
 
   return (
     <aside className={styles.container}>
@@ -13,11 +16,7 @@ export default function Sidebar(props) {
         src="img/DuckHealth_PNG.png"
         alt="duck"
       ></img>
-      {mode === "extended" ? (
-        extendOptions(patientClick, doctorClick)
-      ) : (
-        <div></div>
-      )}
+      {mode === "extended" ? extendOptions(location.pathname) : <></>}
       <button onClick={() => console.log("logout!")} className={styles.logout}>
         <i className="fas fa-sign-out-alt"></i>
       </button>
@@ -25,16 +24,57 @@ export default function Sidebar(props) {
   );
 }
 
-const extendOptions = (patientClick, doctorClick) => (
+const extendOptions = (location) => (
   <div className={styles.extend}>
-    <div className={styles.bord}>
-      <button className={styles.bt1} onClick={patientClick}>
-        <div className={styles.selector}></div>
-        <i className="fas fa-user-injured"></i>
-      </button>
-    </div>
-    <button onClick={doctorClick}>
-      <i className="fas fa-stethoscope"></i>
-    </button>
+    {location !== "/admin/patients" ? (
+      <div className={styles.contain}>
+        <div className={styles.selectorNotActive}></div>
+        <div className={styles.right}>
+          <Link to="/admin/patients">
+            <button className={styles.notActive}>
+              <i className="fas fa-user-injured"></i>
+            </button>
+          </Link>
+          <p className={styles.infoOff}>Pacientes</p>
+        </div>
+      </div>
+    ) : (
+      <div className={styles.contain}>
+        <div className={styles.selectorActive}></div>
+        <div className={styles.right}>
+          <Link to="/admin/patients">
+            <button className={styles.active}>
+              <i className="fas fa-user-injured"></i>
+            </button>
+          </Link>
+          <p className={styles.infoOn}>Pacientes</p>
+        </div>
+      </div>
+    )}
+    {location !== "/admin/doctors" ? (
+      <div className={styles.contain}>
+        <div className={styles.selectorNotActive}></div>
+        <div className={styles.right}>
+          <Link to="/admin/doctors">
+            <button className={styles.notActive}>
+              <i class="fas fa-user-md"></i>
+            </button>
+          </Link>
+          <p className={styles.infoOff}>Médicos</p>
+        </div>
+      </div>
+    ) : (
+      <div className={styles.contain}>
+        <div className={styles.selectorActive}></div>
+        <div className={styles.right}>
+          <Link to="/admin/doctors">
+            <button className={styles.active}>
+              <i class="fas fa-user-md"></i>
+            </button>
+          </Link>
+          <p className={styles.infoOn}>Médicos</p>
+        </div>
+      </div>
+    )}
   </div>
 );

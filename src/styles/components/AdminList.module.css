@@ -1,0 +1,51 @@
+.container {
+  background: white;
+  height: 100%;
+  width: 75%;
+  border-radius: 0.5rem;
+  margin-left: 3.5rem;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 2px solid #2e4a7d;
+  margin: 0 3rem;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  width: 80%;
+}
+
+.info > img {
+  height: 75px;
+  border-radius: 50%;
+  border: 2px solid var(--blue-buttom-sidebar);
+}
+
+.info > h2 {
+  margin-left: 20px;
+  color: var(--blue-text);
+}
+
+.add {
+  background: var(--blue-buttom-sidebar);
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.add:hover {
+  background: var(--blue-sidebar);
+}
+
+.add > i {
+  color: white;
+  font-size: 1.3rem;
+}

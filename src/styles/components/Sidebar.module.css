@@ -5,7 +5,7 @@
   justify-content: space-between;
   background: var(--blue-sidebar);
   height: 100vh;
-  width: 7%;
+  width: 8.5%;
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
 }
@@ -18,7 +18,7 @@
   cursor: pointer;
 }
 
-button {
+.notActive {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,16 +32,16 @@ button {
   outline: none;
 }
 
-button:hover {
+.notActive:hover {
   background: var(--blue-buttom-sidebar);
 }
 
-button > i {
+.notActive > i {
   color: var(--blue-buttom-sidebar);
   font-size: 1.6rem;
 }
 
-button:hover > i {
+.notActive:hover > i {
   color: white;
 }
 
@@ -49,25 +49,102 @@ button:hover > i {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  height: 16%;
+  justify-content: center;
+  height: 25%;
   width: 100%;
 }
 
-.bord {
+.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 55px;
+  height: 55px;
+  border: none;
+  border-radius: 1rem;
+  margin: 0 auto;
+  cursor: pointer;
+  outline: none;
+  background: var(--blue-buttom-sidebar);
+}
+
+.active > i {
+  color: white;
+  font-size: 1.6rem;
+}
+
+
+.contain {
+  display: flex;
+  width: 100%;
+  margin: 2px auto;
+}
+
+.selectorNotActive{
+  position: relative;
+  left: 10px;
+  bottom: 5px;
+  width: 4px;
+  height: 80%;
+  border-radius: 2rem;
+  background: var(--blue-sidebar);
+}
+
+.selectorActive {
+  position: relative;
+  left: 15px;
+  width: 0.3rem;
+  height: 75%;
+  border-radius: 5rem;
+  background: white;
+}
+
+.right {
   width: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.extend button:active > .selector {
-  position: relative;
-  right: 30px;
-  background: white;
-  width: 4px;
-  height: 100%;
-  border-radius: 2rem;
+.infoOff {
+  color: var(--blue-sidebar);
 }
+
+.infoOn {
+  margin: 0 auto;
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
 
 .logout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 55px;
+  height: 55px;
+  background: #12afcb;
+  border: none;
+  border-radius: 1rem;
+  margin: 0 auto;
+  cursor: pointer;
+  outline: none;
   margin-bottom: 25px;
+}
+
+.logout:hover {
+  background: var(--blue-buttom-sidebar)
+}
+
+.logout > i {
+  color: var(--blue-buttom-sidebar);
+  font-size: 1.5rem;
+}
+
+.logout:hover > i {
+  color: white;
+  font-size: 1.5rem;
 }

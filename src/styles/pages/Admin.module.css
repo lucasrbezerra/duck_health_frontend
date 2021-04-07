@@ -12,6 +12,22 @@
   justify-content: center;
 }
 
+.leftContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 85vh;
+  width: 60%;
+}
+
+.rightContent {
+  position: relative;
+  right: 2rem;
+  width: 40%;
+  height: 85vh;
+  margin-right: 1.5rem;
+}
+
 .title {
   color: var(--blue-text);
   font-size: 1.5rem;
