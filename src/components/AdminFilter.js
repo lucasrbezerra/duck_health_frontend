@@ -6,7 +6,7 @@ export default function AdminFilter() {
     <div className={styles.container}>
       <header className={styles.top}>
         <div className={styles.info}>
-          <i class="fas fa-filter"></i>
+          <i className="fas fa-filter"></i>
           <h3>Filtros</h3>
         </div>
       </header>

@@ -3,9 +3,10 @@
   align-items: center;
   background: white;
   border-radius: 0.5rem;
-  width: 85%;
   padding: 5rem 0;
-  margin: 2.5rem 0;
+  width: 75%;
+  margin-bottom: 3%;
+  margin-left: 10%;
 }
 
 .ident {
@@ -13,7 +14,7 @@
   align-items: center;
   justify-content: center;
   background: #3c5d9585;
-  margin-left: 2.5rem;
+  margin-left: 2rem;
   height: 65px;
   width: 65px;
   color: var(--blue-buttom-sidebar);

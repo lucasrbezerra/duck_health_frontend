@@ -1,9 +1,9 @@
 .container {
   background: white;
-  height: 100%;
-  width: 75%;
   border-radius: 0.5rem;
-  margin-left: 3.5rem;
+  height: 80vh;
+  width: 85%;
+  margin-left: 10%;
 }
 
 .head {
@@ -13,6 +13,7 @@
   padding: 1rem 0;
   border-bottom: 2px solid #2e4a7d;
   margin: 0 3rem;
+  margin-bottom: 0.5rem;
 }
 
 .info {
@@ -48,4 +49,76 @@
 .add > i {
   color: white;
   font-size: 1.3rem;
+}
+
+/* Card */
+.listContainer {
+  max-height: 80%;
+  overflow: auto;
+  display: grid;
+  grid-auto-rows: 20%;
+}
+
+.cardContent {
+  display: flex;
+  border-radius: 0.5rem;
+  margin: 0.5rem 0;
+  margin-left: 3rem;
+  margin-right: 2rem;
+  background: linear-gradient(
+    180deg,
+    var(--linear-gradient-primary) 0%,
+    var(--linear-gradient-secundary) 100%
+  );
+  cursor: pointer;
+}
+
+.profileData {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 80%;
+  border-left: 0.5rem solid var(--blue-buttom-sidebar);
+  border-radius: 0.5rem;
+}
+
+.profileData h2,
+.profileData p {
+  margin-left: 1rem;
+}
+
+.profileData h2 {
+  color: var(--blue-text);
+}
+
+.profileData p {
+  color: #2e4a7db9;
+  font-weight: 600;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  border-radius: 0.5rem;
+  justify-content: space-evenly;
+  width: 20%;
+}
+
+.buttons button {
+  background: var(--blue-buttom-sidebar);
+  width: 35px;
+  height: 35px;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.5rem;
+}
+
+.buttons button:nth-child(1):hover {
+  background: var(--blue-sidebar);
+}
+
+.buttons button:nth-child(2):hover {
+  background: #d11a2a;
 }

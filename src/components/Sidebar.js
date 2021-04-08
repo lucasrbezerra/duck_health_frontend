@@ -57,7 +57,7 @@ const extendOptions = (location) => (
         <div className={styles.right}>
           <Link to="/admin/doctors">
             <button className={styles.notActive}>
-              <i class="fas fa-user-md"></i>
+              <i className="fas fa-user-md"></i>
             </button>
           </Link>
           <p className={styles.infoOff}>Médicos</p>
@@ -69,7 +69,7 @@ const extendOptions = (location) => (
         <div className={styles.right}>
           <Link to="/admin/doctors">
             <button className={styles.active}>
-              <i class="fas fa-user-md"></i>
+              <i className="fas fa-user-md"></i>
             </button>
           </Link>
           <p className={styles.infoOn}>Médicos</p>

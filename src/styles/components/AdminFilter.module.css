@@ -1,13 +1,16 @@
 .container {
   background: white;
   border-radius: 0.5rem;
-  width: 85%;
+  width: 75%;
+  margin-top: 10.7%;
+  margin-bottom: 6%;
+  margin-left: 10%;
 }
 
 .top {
   padding: 1rem 0;
   border-bottom: 2px solid var(--blue-buttom-sidebar);
-  margin: 0 30px;
+  margin: 0 2rem;
 }
 
 .info {
