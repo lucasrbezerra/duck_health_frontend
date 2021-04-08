@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "../styles/components/AdminList.module.css";
+//import api from "../services/api";
+//import { AdminContext } from '../contexts/AdminContext';
 
 export default function AdminList(props) {
-  const { list, title, onClickAdd } = props;
-  const [data] = useState(list);
+  const { data, title, handleAdd, deleteUser } = props;
 
   return (
     <div className={styles.container}>
@@ -12,7 +13,7 @@ export default function AdminList(props) {
           <img src="/img/patient.png" alt="paciente"></img>
           <h2>Lista de {title}</h2>
         </div>
-        <button onClick={onClickAdd} className={styles.add}>
+        <button onClick={handleAdd} className={styles.add}>
           <i className="fas fa-plus"></i>
         </button>
       </header>
@@ -21,8 +22,11 @@ export default function AdminList(props) {
           return (
             <Card
               key={index}
+              id={item.id}
+              type={item.user_class}
               full_name={item.full_name}
-              subtitle={item.subtitle}
+              subtitle={title === "Médicos" ? item.specialty : item.login}
+              deleteUser={deleteUser}
             />
           );
         })}
@@ -31,9 +35,12 @@ export default function AdminList(props) {
   );
 }
 
-const Card = ({ full_name, subtitle }) => {
+const Card = ({ id, type, full_name, subtitle, deleteUser }) => {
   return (
-    <div onClick={() => console.log(`card of ${full_name}`)} className={styles.cardContent}>
+    <div
+      onClick={() => console.log(`card of ${id}`)}
+      className={styles.cardContent}
+    >
       <div className={styles.profileData}>
         <h2>{full_name}</h2>
         <p>{subtitle}</p>
@@ -42,7 +49,7 @@ const Card = ({ full_name, subtitle }) => {
         <button onClick={() => console.log(`edit ${full_name}`)}>
           <i className="far fa-edit"></i>
         </button>
-        <button onClick={() => console.log(`delete ${full_name}`)}>
+        <button onClick={() => deleteUser(type, id)}>
           <i className="far fa-trash-alt"></i>
         </button>
       </div>

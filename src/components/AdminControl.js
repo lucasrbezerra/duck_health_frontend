@@ -1,8 +1,10 @@
 import React from "react";
 import styles from "../styles/components/AdminControl.module.css";
+//import { AdminContext } from "../contexts/AdminContext";
 
 export default function AdminControl(props) {
   const { title, number } = props;
+
   return (
     <div className={styles.container}>
       <div className={styles.ident}>

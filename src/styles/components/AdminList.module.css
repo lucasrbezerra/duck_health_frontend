@@ -13,7 +13,6 @@
   padding: 1rem 0;
   border-bottom: 2px solid #2e4a7d;
   margin: 0 3rem;
-  margin-bottom: 0.5rem;
 }
 
 .info {
@@ -53,18 +52,24 @@
 
 /* Card */
 .listContainer {
-  max-height: 80%;
   overflow: auto;
   display: grid;
-  grid-auto-rows: 20%;
+  max-height: 78%;
+  min-height: 78%;
+  max-width: 95%;
+  min-width: 95%;
+  margin-left: 5%;
+  padding: 1rem;
+  padding-right: 1rem;
+  grid-auto-rows: 20.5%;
 }
 
 .cardContent {
   display: flex;
   border-radius: 0.5rem;
   margin: 0.5rem 0;
-  margin-left: 3rem;
-  margin-right: 2rem;
+  max-width: 98%;
+  min-width: 98%;
   background: linear-gradient(
     180deg,
     var(--linear-gradient-primary) 0%,
