@@ -28,7 +28,6 @@ export default function useAdmin() {
   }
 
   const deleteUser = async (type, user_id) => {
-    console.log("id in useAdmin:", user_id);
     if (type === "Médicos") {
       await api.delete(`doctors/del/${user_id}`);
     } else {
