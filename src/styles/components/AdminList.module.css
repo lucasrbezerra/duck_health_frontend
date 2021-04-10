@@ -129,81 +129,75 @@
 }
 
 /* Modal cadastro */
-.modalContent {
+.modalContainer {
   width: 100%;
   height: 100%;
   display: flex;
 }
 
-.imageContent {
-  width: 50%;
-  height: 100%;
-}
-
-.formContent {
+.modalImage {
   flex: 1;
   width: 100%;
   height: 100%;
+}
+.modalImage > img {
+  width: 100%;
+  height: 100%;
+}
+
+.modalHeaderPatient {
+  width: 80%;
+}
+
+.mainTextPatient {
+  color: var(--blue-text);
+  font-size: 2.2rem;
+  font-weight: 800;
+}
+.spanTextPatient {
+  color: #ff738a;
+  font-size: 2.2rem;
+  font-weight: 800;
+}
+
+.modalHeaderDoctor {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mainTextDoctor {
+  color: var(--blue-text);
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.mainTextDoctor > span {
+  color: #ff738a;
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.modalForm {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  width: 80%;
 }
 
-.headerModal {
-  height: 20%;
+.paper {
+  flex: 1;
   display: flex;
+  width: 80;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  width: 80%;
-}
-.mainText {
-  color: var(--blue-text);
-  font-size: 2.8rem;
-  font-weight: 800;
-}
-.spanText {
-  color: #ff738a;
-  font-size: 2.8rem;
-  font-weight: 800;
-}
-.bodyForm {
-  display: flex;
-  justify-content: center;
-  height: 80%;
-  width: 80%;
 }
 
-.inputs:nth-child(1) {
-  margin-top: 1.5rem;
-}
-
-.inputs {
-  width: 100%;
-  height: 12%;
-  margin-bottom: 0.5rem;
-  border: 2px solid var(--blue-buttom-sidebar);
-  border-radius: 0.5rem;
-  text-indent: 10%;
-}
-
-.inputs::-webkit-input-placeholder {
-  color: rgba(0, 0, 0, 0.5);
+.submit {
+  margin-top: 1rem;
+  font-family: "nunito", sans-serif;
   font-weight: 600;
-  opacity: 0.5;
-  font-size: 0.9rem;
-  text-indent: 10%;
-}
-
-.buttonSubmit {
-  position: relative;
-  left: 10.5%;
-  width: 80%;
-  height: 13%;
-  border: none;
-  border-radius: 0.5rem;
-  color: white;
-  font-size: 1.5rem;
-  margin: 1rem 0;
-  cursor: pointer;
-  background-color: var(--blue-buttom-sidebar);
 }
