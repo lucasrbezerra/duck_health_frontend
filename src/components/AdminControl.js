@@ -9,7 +9,7 @@ export default function AdminControl(props) {
     <div className={styles.container}>
       <div className={styles.ident}>
         {title === "Médicos" ? (
-          <i className="fas fa-user-injured"></i>
+          <i className="fas fa-user-md"></i>
         ) : (
           <i className="fas fa-user-injured"></i>
         )}

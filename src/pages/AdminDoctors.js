@@ -7,12 +7,12 @@ import { AdminContext } from "../contexts/AdminContext";
 
 function AdminDoctors(props) {
   const title = "Médicos";
-  const { doctors, numDoctors, handleAdd, deleteUser } = useContext(AdminContext);
+  const { doctors, numDoctors, handleAdd, deleteUser, userExist } = useContext(AdminContext);
 
   return (
     <div className={styles.content}>
       <div className={styles.leftContent}>
-        <AdminList title={title} data={doctors} handleAdd={handleAdd} deleteUser={deleteUser}/>
+        <AdminList title={title} data={doctors} handleAdd={handleAdd} deleteUser={deleteUser} userExist={userExist}/>
       </div>
       <div className={styles.rightContent}>
         <AdminFilter />

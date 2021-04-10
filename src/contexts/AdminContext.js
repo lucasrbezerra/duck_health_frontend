@@ -4,10 +4,10 @@ import useAdmin from "./hooks/useAdmin";
 const AdminContext = createContext();
 
 function AdminProvider({ children }) {
-  const { numPatients, numDoctors, doctors, patients, handleAdd, deleteUser } = useAdmin();
+  const { numPatients, numDoctors, doctors, patients, userExist, handleAdd, deleteUser } = useAdmin();
 
   return (
-    <AdminContext.Provider value={{ numPatients, numDoctors, doctors, patients, handleAdd, deleteUser }}>
+    <AdminContext.Provider value={{ numPatients, numDoctors, doctors, patients, userExist, handleAdd, deleteUser }}>
       {children}
     </AdminContext.Provider>
   );

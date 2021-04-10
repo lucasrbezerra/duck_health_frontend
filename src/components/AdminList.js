@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, forwardRef, useRef } from "react";
 import styles from "../styles/components/AdminList.module.css";
 
 import { useFormik } from "formik";
@@ -7,7 +7,7 @@ import { TextField, Button, Modal } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 export default function AdminList(props) {
-  const { data, title, handleAdd, deleteUser } = props;
+  const { data, title, handleAdd, deleteUser, userExist } = props;
 
   const [openModal, setModalOpen] = useState(false);
 
@@ -23,7 +23,11 @@ export default function AdminList(props) {
     <div className={styles.container}>
       <header className={styles.head}>
         <div className={styles.info}>
-          <img src="/img/patient.png" alt="paciente"></img>
+          {title === "Pacientes" ? (
+            <img src="/img/patient.png" alt="paciente"></img>
+          ) : (
+            <img src="/img/doctor.png" alt="médico"></img>
+          )}
           <h2>Lista de {title}</h2>
         </div>
 
@@ -35,6 +39,8 @@ export default function AdminList(props) {
           title={title}
           open={openModal}
           handleClose={handleClose}
+          handleAdd={handleAdd}
+          userExist={userExist}
         />
       </header>
       <main className={styles.listContainer}>
@@ -66,38 +72,56 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     display: "flex",
-    width: '70%',
-    height: '70%',
+    width: "70%",
+    height: "80%",
     position: "absolute",
     borderRadius: "0.5rem",
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3)
+    padding: theme.spacing(2, 4, 3),
   },
   submit: {
-    marginTop: '1rem',
-    backgroundColor: 'var(--blue-text)',
-  }
+    marginTop: "1rem",
+    backgroundColor: "var(--blue-text)",
+  },
 }));
 
-const RegisterModal = ({ title, open, handleClose }) => {
-  const classes = useStyles();
-
+const RegisterModal = (props) => {
+  const { title, open, handleClose, handleAdd, userExist} = props;
   const [modalStyle] = useState(getModalStyle);
+
+  const modalRef = useRef(null);
+
+  const classes = useStyles();
 
   return (
     <Modal open={open} onClose={handleClose}>
       {title === "Pacientes" ? (
-        <ModalPatient classes={classes} modalStyle={modalStyle} />
+        <ModalPatient
+          classes={classes}
+          modalStyle={modalStyle}
+          handleAdd={handleAdd}
+          handleClose={handleClose}
+          userExist={userExist}
+          ref={modalRef}
+        />
       ) : (
-        <ModalDoctor classes={classes} modalStyle={modalStyle} />
+        <ModalDoctor
+          classes={classes}
+          modalStyle={modalStyle}
+          handleAdd={handleAdd}
+          userExist={userExist}
+          handleClose={handleClose}
+          ref={modalRef}
+        />
       )}
     </Modal>
   );
 };
 
-const ModalPatient = ({classes, modalStyle}) => {
-  
+const ModalPatient = forwardRef((props, ref) => {
+  const { classes, modalStyle, handleAdd, handleClose } = props;
+
   const validationSchemaPatient = yup.object({
     full_name: yup
       .string("Escrava seu nome completo")
@@ -130,14 +154,15 @@ const ModalPatient = ({classes, modalStyle}) => {
     },
     validationSchema: validationSchemaPatient,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      handleAdd("Pacientes", values);
+      handleClose();
     },
   });
 
   return (
-    <div className={classes.paper} style={modalStyle}>
+    <div ref={ref} className={classes.paper} style={modalStyle}>
       <div className={styles.modalImage}>
-        <img src="/img/doctor.jpg"></img>
+        <img src="/img/doctor.jpg" alt="patient"></img>
       </div>
       <div className={styles.modalContent}>
         <div className={styles.modalHeaderPatient}>
@@ -233,9 +258,13 @@ const ModalPatient = ({classes, modalStyle}) => {
       </div>
     </div>
   );
-};
+});
 
-const ModalDoctor = ({ classes, modalStyle }) => {
+const ModalDoctor = forwardRef((props, ref) => {
+  const { classes, modalStyle, handleAdd, handleClose, userExist } = props;
+
+  const regex = RegExp(userExist, 'g');
+  //console.log('-> regex', regex);
 
   const validationSchemaDoctor = yup.object({
     full_name: yup
@@ -246,6 +275,7 @@ const ModalDoctor = ({ classes, modalStyle }) => {
       .required("Preencha a especialidade do médico"),
     login: yup
       .string("Escrava seu CPF")
+      //.matches(regex, "Já existe um usuário com esse CPF!")
       .min(11, "Número de CPF inválido!")
       .required("Preencha com o CPF"),
     password: yup
@@ -273,13 +303,16 @@ const ModalDoctor = ({ classes, modalStyle }) => {
     },
     validationSchema: validationSchemaDoctor,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      handleAdd("Médicos", values);
+      //console.log()
+      //handleClose();
     },
   });
+
   return (
-    <div className={classes.paper} style={modalStyle}>
+    <div ref={ref} className={classes.paper} style={modalStyle}>
       <div className={styles.modalImage}>
-        <img src="/img/2368528.jpg"></img>
+        <img src="/img/2368528.jpg" alt="medical"></img>
       </div>
       <div className={styles.modalContent}>
         <div className={styles.modalHeaderDoctor}>
@@ -388,7 +421,7 @@ const ModalDoctor = ({ classes, modalStyle }) => {
       </div>
     </div>
   );
-};
+});
 
 const Card = ({ id, type, full_name, subtitle, deleteUser }) => {
   return (
