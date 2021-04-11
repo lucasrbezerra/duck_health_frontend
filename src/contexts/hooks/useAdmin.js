@@ -22,7 +22,7 @@ export default function useAdmin() {
         hashed_password: user.password,
       });
     } else {
-      await api.post(`/patients/create`, {
+      await api.post("/patients/create", {
         full_name: user.full_name,
         login: user.login,
         hashed_password: user.password,

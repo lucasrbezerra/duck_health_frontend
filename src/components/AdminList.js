@@ -3,7 +3,8 @@ import styles from "../styles/components/AdminList.module.css";
 
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { TextField, Button, Modal } from "@material-ui/core";
+import { TextField, Button, Modal, DialogContent } from "@material-ui/core";
+import FlipMove from "react-flip-move";
 import { makeStyles } from "@material-ui/core/styles";
 
 export default function AdminList(props) {
@@ -11,15 +12,21 @@ export default function AdminList(props) {
 
   const [openModal, setModalOpen] = useState(false);
   const [loginList, setLoginList] = useState([]);
+  const refCard = useRef(null);
+
 
   async function convertJson() {
     const json = await getLoginList();
-    json.map((item) => setLoginList([...loginList, item.login]));
+    var vet = [];
+    for (var i in json) {
+      vet.push(json[i].login);
+    }
+    setLoginList(vet);
   }
 
   const handleOpen = async () => {
-    setModalOpen(true);
     await convertJson();
+    setModalOpen(true);
   };
 
   const handleClose = () => {
@@ -50,23 +57,26 @@ export default function AdminList(props) {
           loginList={loginList}
         />
       </header>
-      <main className={styles.listContainer}>
-        {data.map(function (item, index) {
-          return (
-            <Card
-              key={index}
-              id={item.id}
-              type={item.user_class}
-              full_name={item.full_name}
-              subtitle={title === "Médicos" ? item.specialty : item.login}
-              deleteUser={deleteUser}
-            />
-          );
-        })}
+      <main style={{ position: 'relative' }} className={styles.listContainer}>
+        <FlipMove typeName={null}>
+          {data.map(function (item, index) {
+            return (
+              <Card
+                key={index}
+                id={item.id}
+                type={item.user_class}
+                full_name={item.full_name}
+                subtitle={title === "Médicos" ? item.specialty : item.login}
+                deleteUser={deleteUser}
+                ref={refCard}
+              />
+            );
+          })}
+        </FlipMove>
       </main>
     </div>
   );
-}
+};
 
 function getModalStyle() {
   return {
@@ -74,7 +84,7 @@ function getModalStyle() {
     left: `50%`,
     transform: `translate(-50%, -50%)`,
   };
-}
+};
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -104,23 +114,27 @@ const RegisterModal = (props) => {
   return (
     <Modal open={open} onClose={handleClose}>
       {title === "Pacientes" ? (
-        <ModalPatient
-          classes={classes}
-          modalStyle={modalStyle}
-          handleAdd={handleAdd}
-          handleClose={handleClose}
-          loginList={loginList}
-          ref={modalRef}
-        />
+        <DialogContent>
+          <ModalPatient
+            classes={classes}
+            modalStyle={modalStyle}
+            handleAdd={handleAdd}
+            handleClose={handleClose}
+            loginList={loginList}
+            ref={modalRef}
+          />
+        </DialogContent>
       ) : (
-        <ModalDoctor
-          classes={classes}
-          modalStyle={modalStyle}
-          handleAdd={handleAdd}
-          handleClose={handleClose}
-          loginList={loginList}
-          ref={modalRef}
-        />
+        <DialogContent>
+          <ModalDoctor
+            classes={classes}
+            modalStyle={modalStyle}
+            handleAdd={handleAdd}
+            handleClose={handleClose}
+            loginList={loginList}
+            ref={modalRef}
+          />
+        </DialogContent>
       )}
     </Modal>
   );
@@ -136,7 +150,8 @@ const ModalPatient = forwardRef((props, ref) => {
     login: yup
       .string("Escrava seu CPF")
       .min(11, "Número de CPF inválido!")
-      .required("Preencha com o CPF"),
+      .required("Preencha com o CPF")
+      .notOneOf(loginList, "Este CPF já foi cadastrado!"),
     password: yup
       .string("Escreva uma senha")
       .min(8, "Senha deve ter no minimo 8 digitos!")
@@ -181,6 +196,7 @@ const ModalPatient = forwardRef((props, ref) => {
           onSubmit={formikPatient.handleSubmit}
         >
           <TextField
+            autoFocus
             variant="outlined"
             margin="normal"
             fullWidth
@@ -272,16 +288,16 @@ const ModalDoctor = forwardRef((props, ref) => {
 
   const validationSchemaDoctor = yup.object({
     full_name: yup
-      .string("Escrava seu nome completo")
-      .required("Preencha o nome completo"),
+      .string("Escreva o nome completo")
+      .required("Preencha com o nome completo"),
     specialty: yup
       .string("Escrava a especialidade do médico!")
       .required("Preencha a especialidade do médico"),
     login: yup
       .string("Escrava seu CPF")
       .min(11, "Número de CPF inválido!")
-      .required("Preencha com o CPF")
-      .notOneOf(loginList, "CPF já cadastrado!"),
+      .required("Preencha com o CPF!")
+      .notOneOf(loginList, "Este CPF já foi cadastrado!"),
     password: yup
       .string("Escreva uma senha")
       .min(8, "Senha deve ter no minimo 8 digitos!")
@@ -325,6 +341,7 @@ const ModalDoctor = forwardRef((props, ref) => {
         </div>
         <form className={styles.modalForm} onSubmit={formikDoctor.handleSubmit}>
           <TextField
+            autoFocus
             variant="outlined"
             margin="normal"
             fullWidth
@@ -412,7 +429,6 @@ const ModalDoctor = forwardRef((props, ref) => {
           />
           <Button
             className={classes.submit}
-            //disabled={!(formikDoctor.isValid)}
             color="primary"
             variant="contained"
             size="large"
@@ -427,11 +443,13 @@ const ModalDoctor = forwardRef((props, ref) => {
   );
 });
 
-const Card = ({ id, type, full_name, subtitle, deleteUser }) => {
+const Card = forwardRef((props, ref) => {
+  const { id, type, full_name, subtitle, deleteUser } = props;
   return (
     <div
       onClick={() => console.log(`id: ${id}`)}
       className={styles.cardContent}
+      ref={ref}
     >
       <div className={styles.profileData}>
         <h2>{full_name}</h2>
@@ -447,4 +465,4 @@ const Card = ({ id, type, full_name, subtitle, deleteUser }) => {
       </div>
     </div>
   );
-};
+});
