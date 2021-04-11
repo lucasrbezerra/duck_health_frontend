@@ -6,27 +6,26 @@ export default function useAdmin() {
   const [patients, setPatients] = useState([]);
   const [numDoctors, setNumDoctor] = useState(0);
   const [numPatients, setNumPatients] = useState(0);
-  const [userExist, setUserExist] = useState(null);
   const [clicked, setClicked] = useState(false);
+
+  async function getLoginList(){
+    const response = await api.get("users/list/logins");
+    return response.data;
+  }
 
   const handleAdd = async (type, user) => {
     if (type === "Médicos") {
-      await api.post(`/doctors/create`, {
+      await api.post("/doctors/create", {
         full_name: user.full_name,
         specialty: user.specialty,
         login: user.login,
         hashed_password: user.password,
-      }).then((res) => {
-        console.log("->", res.data);
-        setUserExist(res.data);
       });
     } else {
       await api.post(`/patients/create`, {
         full_name: user.full_name,
         login: user.login,
         hashed_password: user.password,
-      }).then((res) => {
-        setUserExist(res.data[0].login);
       });
     }
     setClicked(!clicked);
@@ -37,22 +36,27 @@ export default function useAdmin() {
     setDoctors(response.data);
 
     setNumDoctor(response.data.length);
-  }
+  };
 
   async function getPatients() {
     const response = await api.get("patients/list");
     setPatients(response.data);
 
     setNumPatients(response.data.length);
-  }
+  };
 
   const deleteUser = async (type, user_id) => {
     if (type === "Médicos") {
-      await api.delete(`doctors/del/${user_id}`);
+      await api.delete(`doctors/del/${user_id}`).then((res) => {
+        console.log(res.data);
+        setClicked(!clicked);
+      });
     } else {
-      await api.delete(`patients/del/${user_id}`);
+      await api.delete(`patients/del/${user_id}`).then((res) => {
+        console.log(res.data);
+        setClicked(!clicked);
+      });
     }
-    setClicked(!clicked);
   };
 
   useEffect(() => {
@@ -60,5 +64,13 @@ export default function useAdmin() {
     getPatients();
   }, [clicked]);
 
-  return { numPatients, numDoctors, doctors, patients, userExist, handleAdd, deleteUser };
+  return {
+    numPatients,
+    numDoctors,
+    doctors,
+    patients,
+    getLoginList,
+    handleAdd,
+    deleteUser,
+  };
 }

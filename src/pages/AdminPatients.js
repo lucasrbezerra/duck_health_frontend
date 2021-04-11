@@ -12,7 +12,7 @@ function AdminPatients(props) {
     numPatients,
     handleAdd,
     deleteUser,
-    userExist,
+    getLoginList,
   } = useContext(AdminContext);
 
   return (
@@ -22,8 +22,8 @@ function AdminPatients(props) {
           title={title}
           data={patients}
           handleAdd={handleAdd}
+          getLoginList={getLoginList}
           deleteUser={deleteUser}
-          userExist={userExist}
         />
       </div>
       <div className={styles.rightContent}>

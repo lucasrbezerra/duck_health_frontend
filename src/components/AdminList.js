@@ -7,12 +7,19 @@ import { TextField, Button, Modal } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 export default function AdminList(props) {
-  const { data, title, handleAdd, deleteUser, userExist } = props;
+  const { data, title, handleAdd, deleteUser, getLoginList } = props;
 
   const [openModal, setModalOpen] = useState(false);
+  const [loginList, setLoginList] = useState([]);
 
-  const handleOpen = () => {
+  async function convertJson() {
+    const json = await getLoginList();
+    json.map((item) => setLoginList([...loginList, item.login]));
+  }
+
+  const handleOpen = async () => {
     setModalOpen(true);
+    await convertJson();
   };
 
   const handleClose = () => {
@@ -40,7 +47,7 @@ export default function AdminList(props) {
           open={openModal}
           handleClose={handleClose}
           handleAdd={handleAdd}
-          userExist={userExist}
+          loginList={loginList}
         />
       </header>
       <main className={styles.listContainer}>
@@ -87,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RegisterModal = (props) => {
-  const { title, open, handleClose, handleAdd, userExist} = props;
+  const { title, open, handleClose, handleAdd, loginList } = props;
   const [modalStyle] = useState(getModalStyle);
 
   const modalRef = useRef(null);
@@ -102,7 +109,7 @@ const RegisterModal = (props) => {
           modalStyle={modalStyle}
           handleAdd={handleAdd}
           handleClose={handleClose}
-          userExist={userExist}
+          loginList={loginList}
           ref={modalRef}
         />
       ) : (
@@ -110,8 +117,8 @@ const RegisterModal = (props) => {
           classes={classes}
           modalStyle={modalStyle}
           handleAdd={handleAdd}
-          userExist={userExist}
           handleClose={handleClose}
+          loginList={loginList}
           ref={modalRef}
         />
       )}
@@ -120,7 +127,7 @@ const RegisterModal = (props) => {
 };
 
 const ModalPatient = forwardRef((props, ref) => {
-  const { classes, modalStyle, handleAdd, handleClose } = props;
+  const { classes, modalStyle, handleAdd, handleClose, loginList } = props;
 
   const validationSchemaPatient = yup.object({
     full_name: yup
@@ -261,10 +268,7 @@ const ModalPatient = forwardRef((props, ref) => {
 });
 
 const ModalDoctor = forwardRef((props, ref) => {
-  const { classes, modalStyle, handleAdd, handleClose, userExist } = props;
-
-  const regex = RegExp(userExist, 'g');
-  //console.log('-> regex', regex);
+  const { classes, modalStyle, handleAdd, handleClose, loginList } = props;
 
   const validationSchemaDoctor = yup.object({
     full_name: yup
@@ -275,9 +279,9 @@ const ModalDoctor = forwardRef((props, ref) => {
       .required("Preencha a especialidade do médico"),
     login: yup
       .string("Escrava seu CPF")
-      //.matches(regex, "Já existe um usuário com esse CPF!")
       .min(11, "Número de CPF inválido!")
-      .required("Preencha com o CPF"),
+      .required("Preencha com o CPF")
+      .notOneOf(loginList, "CPF já cadastrado!"),
     password: yup
       .string("Escreva uma senha")
       .min(8, "Senha deve ter no minimo 8 digitos!")
@@ -304,8 +308,7 @@ const ModalDoctor = forwardRef((props, ref) => {
     validationSchema: validationSchemaDoctor,
     onSubmit: (values) => {
       handleAdd("Médicos", values);
-      //console.log()
-      //handleClose();
+      handleClose();
     },
   });
 
@@ -409,6 +412,7 @@ const ModalDoctor = forwardRef((props, ref) => {
           />
           <Button
             className={classes.submit}
+            //disabled={!(formikDoctor.isValid)}
             color="primary"
             variant="contained"
             size="large"
@@ -426,7 +430,7 @@ const ModalDoctor = forwardRef((props, ref) => {
 const Card = ({ id, type, full_name, subtitle, deleteUser }) => {
   return (
     <div
-      onClick={() => console.log(`card of ${id}`)}
+      onClick={() => console.log(`id: ${id}`)}
       className={styles.cardContent}
     >
       <div className={styles.profileData}>
@@ -434,10 +438,10 @@ const Card = ({ id, type, full_name, subtitle, deleteUser }) => {
         <p>{subtitle}</p>
       </div>
       <div className={styles.buttons}>
-        <button onClick={() => console.log(`edit ${full_name}`)}>
+        <button type="submit " onClick={() => console.log(`edit ${full_name}`)}>
           <i className="far fa-edit"></i>
         </button>
-        <button onClick={() => deleteUser(type, id)}>
+        <button type="submit" onClick={() => deleteUser(type, id)}>
           <i className="far fa-trash-alt"></i>
         </button>
       </div>
