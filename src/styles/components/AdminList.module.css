@@ -52,6 +52,7 @@
 
 /* Card */
 .listContainer {
+  position: relative;
   overflow: auto;
   display: grid;
   max-height: 78%;
