@@ -4,7 +4,7 @@ import styles from "../styles/components/AdminList.module.css";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { TextField, Button, Modal, DialogContent } from "@material-ui/core";
-import FlipMove from "react-flip-move";
+import { AnimatedList } from "react-animated-list";
 import { makeStyles } from "@material-ui/core/styles";
 
 export default function AdminList(props) {
@@ -12,8 +12,8 @@ export default function AdminList(props) {
 
   const [openModal, setModalOpen] = useState(false);
   const [loginList, setLoginList] = useState([]);
-  const refCard = useRef(null);
 
+  const refCard = useRef(null);
 
   async function convertJson() {
     const json = await getLoginList();
@@ -57,8 +57,8 @@ export default function AdminList(props) {
           loginList={loginList}
         />
       </header>
-      <main style={{ position: 'relative' }} className={styles.listContainer}>
-        <FlipMove typeName={null}>
+      <main style={{ position: "relative" }} className={styles.listContainer}>
+        <AnimatedList typeName={null} animation={"grow"}>
           {data.map(function (item, index) {
             return (
               <Card
@@ -72,36 +72,11 @@ export default function AdminList(props) {
               />
             );
           })}
-        </FlipMove>
+        </AnimatedList>
       </main>
     </div>
   );
-};
-
-function getModalStyle() {
-  return {
-    top: `50%`,
-    left: `50%`,
-    transform: `translate(-50%, -50%)`,
-  };
-};
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    display: "flex",
-    width: "70%",
-    height: "80%",
-    position: "absolute",
-    borderRadius: "0.5rem",
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-  submit: {
-    marginTop: "1rem",
-    backgroundColor: "var(--blue-text)",
-  },
-}));
+}
 
 const RegisterModal = (props) => {
   const { title, open, handleClose, handleAdd, loginList } = props;
@@ -145,26 +120,37 @@ const ModalPatient = forwardRef((props, ref) => {
 
   const validationSchemaPatient = yup.object({
     full_name: yup
-      .string("Escrava seu nome completo")
+      .string("Escreva seu nome completo")
       .required("Preencha o nome completo"),
     login: yup
-      .string("Escrava seu CPF")
+      .string("Escreva seu CPF")
       .min(11, "Número de CPF inválido!")
       .required("Preencha com o CPF")
-      .notOneOf(loginList, "Este CPF já foi cadastrado!"),
+      .test("cpf-format", "Este CPF já foi cadastrado!", function (val) {
+        return (
+          val !== undefined &&
+          !loginList.includes(val.replace(/[.,/*+;'"_-]/g, ""))
+        );
+      })
+      .test("unique-login", "CPF inválido", function (val) {
+        return val === undefined ? "" : validateCPF(val);
+      }),
     password: yup
       .string("Escreva uma senha")
       .min(8, "Senha deve ter no minimo 8 digitos!")
       .required("Preencha a senha"),
-    confirmPassword: yup.string().when("password", {
-      is: (val) => (val && val.length > 0 ? true : false),
-      then: yup
-        .string()
-        .oneOf(
-          [yup.ref("password")],
-          "Senha diferente da escrita anteriormente!"
-        ),
-    }),
+    confirmPassword: yup
+      .string()
+      .required("Confirme a senha digitada!")
+      .when("password", {
+        is: (val) => (val && val.length > 0 ? true : false),
+        then: yup
+          .string()
+          .oneOf(
+            [yup.ref("password")],
+            "Senha diferente da escrita anteriormente!"
+          ),
+      }),
   });
 
   const formikPatient = useFormik({
@@ -188,8 +174,10 @@ const ModalPatient = forwardRef((props, ref) => {
       </div>
       <div className={styles.modalContent}>
         <div className={styles.modalHeaderPatient}>
-          <p className={styles.mainTextPatient}>Cadastrar Novo</p>
-          <p className={styles.spanTextPatient}>Paciente</p>
+          <p className={styles.mainTextPatient}>
+            Cadastrar Novo{" "}
+            <span className={styles.spanTextPatient}>Paciente</span>
+          </p>
         </div>
         <form
           className={styles.modalForm}
@@ -297,20 +285,31 @@ const ModalDoctor = forwardRef((props, ref) => {
       .string("Escrava seu CPF")
       .min(11, "Número de CPF inválido!")
       .required("Preencha com o CPF!")
-      .notOneOf(loginList, "Este CPF já foi cadastrado!"),
+      .test("cpf-format", "Este CPF já foi cadastrado!", function (val) {
+        return (
+          val !== undefined &&
+          !loginList.includes(val.replace(/[.,/*+;'"_-]/g, ""))
+        );
+      })
+      .test("unique-login", "CPF inválido!", function (val) {
+        return val === undefined ? "" : validateCPF(val);
+      }),
     password: yup
       .string("Escreva uma senha")
       .min(8, "Senha deve ter no minimo 8 digitos!")
       .required("Preencha a senha"),
-    confirmPassword: yup.string().when("password", {
-      is: (val) => (val && val.length > 0 ? true : false),
-      then: yup
-        .string()
-        .oneOf(
-          [yup.ref("password")],
-          "Senha diferente da escrita anteriormente!"
-        ),
-    }),
+    confirmPassword: yup
+      .string()
+      .required("Confirme a senha digitada!")
+      .when("password", {
+        is: (val) => (val && val.length > 0 ? true : false),
+        then: yup
+          .string()
+          .oneOf(
+            [yup.ref("password")],
+            "Senha diferente da escrita anteriormente!"
+          ),
+      }),
   });
 
   const formikDoctor = useFormik({
@@ -466,3 +465,97 @@ const Card = forwardRef((props, ref) => {
     </div>
   );
 });
+
+/* Funções Auxiliares */
+function getModalStyle() {
+  return {
+    top: `50%`,
+    left: `50%`,
+    transform: `translate(-50%, -50%)`,
+  };
+}
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    display: "flex",
+    width: "70%",
+    height: "80%",
+    position: "absolute",
+    borderRadius: "0.5rem",
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+  submit: {
+    marginTop: "1rem",
+    backgroundColor: "var(--blue-text)",
+  },
+}));
+
+function validateCPF(cpf) {
+  const regex = /[.,/*+;'"_-]/g;
+  const filtered = cpf.replace(regex, "");
+
+  const condition1 = filtered.length === 11;
+
+  const condition2 = allDifferent(filtered);
+
+  const condition3 =
+    findJ(filtered) === parseInt(filtered.charAt(filtered.length - 2));
+
+  const condition4 =
+    findK(filtered) === parseInt(filtered.charAt(filtered.length - 1));
+
+  return condition1 && condition2 && condition3 && condition4 ? true : false;
+}
+
+function findJ(cpf) {
+  var j = 0;
+  var i = 10;
+  var count = 0;
+  var resto;
+
+  for (i, j; j < cpf.length - 2; i--, j++) {
+    count += cpf[j] * i;
+  }
+
+  resto = count % 11;
+
+  if (resto === 0 || resto === 1) {
+    return 0;
+  } else {
+    return 11 - resto;
+  }
+}
+
+function findK(cpf) {
+  var j = 0;
+  var i = 11;
+  var count = 0;
+  var resto;
+
+  for (i, j; j < cpf.length - 1; i--, j++) {
+    count += cpf[j] * i;
+  }
+
+  resto = count % 11;
+
+  if (resto === 0 || resto === 1) {
+    return 0;
+  } else {
+    return 11 - resto;
+  }
+}
+
+function allDifferent(cpf) {
+  var firstValue = cpf[0];
+  var count = 0;
+  var i = 1;
+  for (i in cpf) {
+    if (cpf[i] === firstValue) {
+      count++;
+    }
+  }
+
+  return count === 11 ? false : true;
+}

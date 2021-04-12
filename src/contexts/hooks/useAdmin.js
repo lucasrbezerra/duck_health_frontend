@@ -18,13 +18,13 @@ export default function useAdmin() {
       await api.post("/doctors/create", {
         full_name: user.full_name,
         specialty: user.specialty,
-        login: user.login,
+        login: user.login.replace(/[.,/*+;'"_-]/g , ""),
         hashed_password: user.password,
       });
     } else {
       await api.post("/patients/create", {
         full_name: user.full_name,
-        login: user.login,
+        login: user.login.replace(/[.,/*+;'"_-]/g , ""),
         hashed_password: user.password,
       });
     }

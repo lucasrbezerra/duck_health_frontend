@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import styles from "../styles/pages/Admin.module.css";
-import AdminList from "../components/AdminList";
-import AdminFilter from "../components/AdminFilter";
-import AdminControl from "../components/AdminControl";
-import { AdminContext } from "../contexts/AdminContext";
+import styles from "../../styles/pages/Admin.module.css";
+import AdminList from "../../components/AdminList";
+import AdminFilter from "../../components/AdminFilter";
+import AdminControl from "../../components/AdminControl";
+import { AdminContext } from "../../contexts/AdminContext";
 
 function AdminDoctors(props) {
   const title = "Médicos";
