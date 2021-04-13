@@ -1,7 +1,27 @@
 import React from "react";
 import styles from "../styles/components/AdminFilter.module.css";
+import { withStyles } from "@material-ui/core/styles";
+import { Radio, RadioGroup, FormControl, FormLabel } from "@material-ui/core";
+import Searchbar from "../components/Searchbar";
 
-export default function AdminFilter() {
+const RadioButton = withStyles({
+  root: {
+    color: "var(--blue-text)",
+    "&$checked": {
+      color: "var(--blue-text)",
+    },
+  },
+  checked: {},
+})((props) => <Radio {...props} />);
+
+
+export default function AdminFilter(props) {
+  const { order, setOrder, filterBy, setFilterBy } = props;
+
+  const handleChange = (event) => {
+    setOrder(event.target.value);
+  };
+
   return (
     <div className={styles.container}>
       <header className={styles.top}>
@@ -12,17 +32,35 @@ export default function AdminFilter() {
       </header>
       <main className={styles.content}>
         <p>Buscar por:</p>
-        <h1>SearchBar here</h1>
+        <Searchbar filterBy={filterBy} setFilterBy={setFilterBy} />
         <p>Ordenar por:</p>
         <div className={styles.order}>
-          <div className={styles.icons}>
-            <div className={styles.circularSelect}></div>
-            <h3>Data de Criação</h3>
-          </div>
-          <div className={styles.icons}>
-            <div className={styles.circularSelect}></div>
-            <h3>Ordem Alfabética</h3>
-          </div>
+          <FormControl component="fieldset">
+            <RadioGroup name="orderby" value={order} onChange={handleChange}>
+              <div className={styles.icons}>
+                <div className={styles.group}>
+                  <RadioButton
+                    checked={order === "date"}
+                    onChange={handleChange}
+                    value="date"
+                    name="radio-button-demo"
+                    inputProps={{ "aria-label": "date" }}
+                  />
+                  <h2>Data de Cadastro</h2>
+                </div>
+                <div className={styles.group}>
+                  <RadioButton
+                    checked={order === "alfa"}
+                    onChange={handleChange}
+                    value="alfa"
+                    name="radio-button-demo"
+                    inputProps={{ "aria-label": "alfa" }}
+                  />
+                  <h2>Ordem Alfabética</h2>
+                </div>
+              </div>
+            </RadioGroup>
+          </FormControl>
         </div>
       </main>
     </div>

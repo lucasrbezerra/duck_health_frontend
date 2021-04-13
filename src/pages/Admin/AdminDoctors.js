@@ -7,9 +7,17 @@ import { AdminContext } from "../../contexts/AdminContext";
 
 function AdminDoctors(props) {
   const title = "Médicos";
-  const { doctors, numDoctors, handleAdd, deleteUser, getLoginList } = useContext(
-    AdminContext
-  );
+  const {
+    doctors,
+    numDoctors,
+    handleAdd,
+    deleteUser,
+    getLoginList,
+    filterBy,
+    setFilterBy,
+    order,
+    setOrder,
+  } = useContext(AdminContext);
 
   return (
     <div className={styles.content}>
@@ -20,10 +28,11 @@ function AdminDoctors(props) {
           getLoginList={getLoginList}
           handleAdd={handleAdd}
           deleteUser={deleteUser}
+          filterBy={filterBy}
         />
       </div>
       <div className={styles.rightContent}>
-        <AdminFilter />
+        <AdminFilter order={order} setOrder={setOrder} filterBy={filterBy} setFilterBy={setFilterBy}/>
         <AdminControl title={title} number={numDoctors} />
       </div>
     </div>

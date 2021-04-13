@@ -13,6 +13,10 @@ function AdminPatients(props) {
     handleAdd,
     deleteUser,
     getLoginList,
+    filterBy,
+    setFilterBy,
+    order,
+    setOrder
   } = useContext(AdminContext);
 
   return (
@@ -24,10 +28,11 @@ function AdminPatients(props) {
           handleAdd={handleAdd}
           getLoginList={getLoginList}
           deleteUser={deleteUser}
+          filterBy={filterBy}
         />
       </div>
       <div className={styles.rightContent}>
-        <AdminFilter />
+        <AdminFilter order={order} setOrder={setOrder} filterBy={filterBy} setFilterBy={setFilterBy}/>
         <AdminControl title={title} number={numPatients} />
       </div>
     </div>

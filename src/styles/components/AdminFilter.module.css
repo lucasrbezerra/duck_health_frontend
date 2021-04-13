@@ -41,11 +41,6 @@
   font-weight: 600;
 }
 
-/* temporario abaixo */
-.content h1 {
-  padding: 10px 0;
-}
-/* temporario acima */
 .order {
   display: flex;
   align-items: center;
@@ -54,20 +49,21 @@
 }
 
 .icons {
+  position: relative;
+  right: 2.8%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.group {
   display: flex;
   align-items: center;
 }
 
-/* temporario abaixo */
-.circularSelect {
-  width: 2rem;
-  height: 2rem;
-  background: var(--blue-buttom-sidebar);
-  border-radius: 50%;
-}
-/* temporario acima */
-
-.icons > h3 {
-  color: var(--blue-text);
-  margin-left: 10px;
+.group > h2 {
+  color: var(--blue-buttom-sidebar);
+  font-size: 1rem;
+  font-weight: 800;
+  margin-right: 1rem;
 }
