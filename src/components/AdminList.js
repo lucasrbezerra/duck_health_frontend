@@ -9,10 +9,11 @@ import {
   DialogContent,
   InputAdornment,
 } from "@material-ui/core";
-//import { AnimatedList } from "react-animated-list";
 import { makeStyles } from "@material-ui/core/styles";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 import FlipMove from "react-flip-move";
 
 export default function AdminList(props) {
@@ -20,6 +21,7 @@ export default function AdminList(props) {
 
   const [openModal, setModalOpen] = useState(false);
   const [loginList, setLoginList] = useState([]);
+  const [success, setSuccess] = useState(false);
 
   const refCard = useRef(null);
 
@@ -30,7 +32,7 @@ export default function AdminList(props) {
       vet.push(json[i].login);
     }
     setLoginList(vet);
-  }
+  };
 
   const handleOpen = async () => {
     await convertJson();
@@ -63,17 +65,13 @@ export default function AdminList(props) {
           handleClose={handleClose}
           handleAdd={handleAdd}
           loginList={loginList}
+          setSuccess={setSuccess}
         />
       </header>
       <main style={{ position: "relative" }} className={styles.listContainer}>
         <FlipMove>
           {data
             .filter((item) => {
-              console.log("info: ", filterBy);
-              console.log(
-                "item:",
-                item.full_name.toLowerCase().includes(filterBy.toLowerCase())
-              );
               return item.full_name
                 .toLowerCase()
                 .includes(filterBy.toLowerCase());
@@ -85,7 +83,9 @@ export default function AdminList(props) {
                   id={item.id}
                   type={item.user_class}
                   full_name={item.full_name}
-                  subtitle={title === "Médicos" ? item.specialty : item.login}
+                  subtitle={
+                    title === "Médicos" ? item.specialty : formatCPF(item.login)
+                  }
                   deleteUser={deleteUser}
                   size={data.length}
                   ref={refCard}
@@ -94,12 +94,17 @@ export default function AdminList(props) {
             })}
         </FlipMove>
       </main>
+      <Snackbar open={success} autoHideDuration={4500} onClose={() => setSuccess(false)}>
+        <Alert onClose={() => setSuccess(false)} severity="success">
+          Sucesso ao cadastrar um novo {title === "Médicos" ? "Médico" : "Paciente"}!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
 
 const RegisterModal = (props) => {
-  const { title, open, handleClose, handleAdd, loginList } = props;
+  const { title, open, handleClose, handleAdd, loginList, setSuccess } = props;
   const [modalStyle] = useState(getModalStyle);
 
   const modalRef = useRef(null);
@@ -116,6 +121,7 @@ const RegisterModal = (props) => {
             handleAdd={handleAdd}
             handleClose={handleClose}
             loginList={loginList}
+            setSuccess={setSuccess}
             ref={modalRef}
           />
         </DialogContent>
@@ -127,6 +133,7 @@ const RegisterModal = (props) => {
             handleAdd={handleAdd}
             handleClose={handleClose}
             loginList={loginList}
+            setSuccess={setSuccess}
             ref={modalRef}
           />
         </DialogContent>
@@ -136,7 +143,7 @@ const RegisterModal = (props) => {
 };
 
 const ModalPatient = forwardRef((props, ref) => {
-  const { classes, modalStyle, handleAdd, handleClose, loginList } = props;
+  const { classes, modalStyle, handleAdd, handleClose, loginList, setSuccess } = props;
   const [visiblePasswd, setVisiblePasswd] = useState(false);
 
   const validationSchemaPatient = yup.object({
@@ -185,6 +192,7 @@ const ModalPatient = forwardRef((props, ref) => {
     onSubmit: (values) => {
       handleAdd("Pacientes", values);
       handleClose();
+      setSuccess(true); /*snackbar */
     },
   });
 
@@ -312,7 +320,7 @@ const ModalPatient = forwardRef((props, ref) => {
 });
 
 const ModalDoctor = forwardRef((props, ref) => {
-  const { classes, modalStyle, handleAdd, handleClose, loginList } = props;
+  const { classes, modalStyle, handleAdd, handleClose, loginList, setSuccess } = props;
   const [visiblePasswd, setVisiblePasswd] = useState(false);
 
   const validationSchemaDoctor = yup.object({
@@ -365,6 +373,7 @@ const ModalDoctor = forwardRef((props, ref) => {
     onSubmit: (values) => {
       handleAdd("Médicos", values);
       handleClose();
+      setSuccess(true); /*snackbar */
     },
   });
 
@@ -565,6 +574,19 @@ function validateCPF(cpf) {
     findK(filtered) === parseInt(filtered.charAt(filtered.length - 1));
 
   return condition1 && condition2 && condition3 && condition4 ? true : false;
+}
+
+function formatCPF(cpf) {
+  const formatedCPF =
+    cpf.substr(0, 3) +
+    "." +
+    cpf.substr(3, 3) +
+    "." +
+    cpf.substr(6, 3) +
+    "-" +
+    cpf.substr(9, 2);
+
+  return formatedCPF;
 }
 
 function findJ(cpf) {
