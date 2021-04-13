@@ -6,8 +6,8 @@ import {
   Redirect,
 } from "react-router-dom";
 import Admin from "./pages/Admin";
-import AdminPatients from "./pages/AdminPatients";
-import AdminDoctors from "./pages/AdminDoctors";
+import AdminPatients from "./pages/Admin/AdminPatients";
+import AdminDoctors from "./pages/Admin/AdminDoctors";
 
 export default function Routes() {
   return (
@@ -16,7 +16,7 @@ export default function Routes() {
         render={(props) => (
           <Admin {...props}>
             <Switch>
-              <Redirect exact from={'/'} to={'/admin/patients'} />
+              <Redirect exact from={"/"} to={"/admin/patients"} />
               <Route path="/admin/patients" component={AdminPatients} />
               <Route path="/admin/doctors" component={AdminDoctors} />
             </Switch>
