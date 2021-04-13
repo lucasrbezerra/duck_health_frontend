@@ -41,11 +41,29 @@ export default function useAdmin() {
     setClicked(!clicked);
   };
 
+  const handleEdit = async (type, user, id) => {
+    if (type === "Médicos") {
+      await api.put(`/doctors/edit/${id}`, {
+        full_name: user.full_name,
+        specialty: user.specialty,
+        login: user.login.replace(/[.,/*+;'"_-]/g, ""),
+        hashed_password: user.password,
+      });
+    } else {
+      await api.put(`/patients/edit/${id}`, {
+        full_name: user.full_name,
+        login: user.login.replace(/[.,/*+;'"_-]/g, ""),
+        hashed_password: user.password,
+      });
+    }
+    setClicked(!clicked);
+  };
+
   async function getDoctors() {
     const response = await api.get("doctors/list");
     order === "alfa"
       ? setDoctors(sortJSON("full_name", response.data))
-      : setDoctors(response.data);
+      : setDoctors(response.data.reverse());
 
     setNumDoctor(response.data.length);
   }
@@ -54,7 +72,7 @@ export default function useAdmin() {
     const response = await api.get("patients/list");
     order === "alfa"
       ? setPatients(sortJSON("full_name", response.data))
-      : setPatients(response.data);
+      : setPatients(response.data.reverse());
 
     setNumPatients(response.data.length);
   }
@@ -84,11 +102,12 @@ export default function useAdmin() {
     doctors,
     patients,
     order,
-    filterBy, 
+    filterBy,
     setFilterBy,
     setOrder,
     getLoginList,
     handleAdd,
+    handleEdit,
     deleteUser,
   };
 }
