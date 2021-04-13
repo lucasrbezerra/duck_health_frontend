@@ -9,13 +9,14 @@ import {
   DialogContent,
   InputAdornment,
 } from "@material-ui/core";
-import { AnimatedList } from "react-animated-list";
+//import { AnimatedList } from "react-animated-list";
 import { makeStyles } from "@material-ui/core/styles";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
+import FlipMove from "react-flip-move";
 
 export default function AdminList(props) {
-  const { data, title, handleAdd, deleteUser, getLoginList } = props;
+  const { data, title, handleAdd, deleteUser, getLoginList, filterBy } = props;
 
   const [openModal, setModalOpen] = useState(false);
   const [loginList, setLoginList] = useState([]);
@@ -65,22 +66,33 @@ export default function AdminList(props) {
         />
       </header>
       <main style={{ position: "relative" }} className={styles.listContainer}>
-        <AnimatedList animation={"slide"}>
-          {data.map(function (item, index) {
-            return (
-              <Card
-                key={index}
-                id={item.id}
-                type={item.user_class}
-                full_name={item.full_name}
-                subtitle={title === "Médicos" ? item.specialty : item.login}
-                deleteUser={deleteUser}
-                size={data.length}
-                ref={refCard}
-              />
-            );
-          })}
-        </AnimatedList>
+        <FlipMove>
+          {data
+            .filter((item) => {
+              console.log("info: ", filterBy);
+              console.log(
+                "item:",
+                item.full_name.toLowerCase().includes(filterBy.toLowerCase())
+              );
+              return item.full_name
+                .toLowerCase()
+                .includes(filterBy.toLowerCase());
+            })
+            .map(function (item, index) {
+              return (
+                <Card
+                  key={index}
+                  id={item.id}
+                  type={item.user_class}
+                  full_name={item.full_name}
+                  subtitle={title === "Médicos" ? item.specialty : item.login}
+                  deleteUser={deleteUser}
+                  size={data.length}
+                  ref={refCard}
+                />
+              );
+            })}
+        </FlipMove>
       </main>
     </div>
   );
@@ -301,6 +313,7 @@ const ModalPatient = forwardRef((props, ref) => {
 
 const ModalDoctor = forwardRef((props, ref) => {
   const { classes, modalStyle, handleAdd, handleClose, loginList } = props;
+  const [visiblePasswd, setVisiblePasswd] = useState(false);
 
   const validationSchemaDoctor = yup.object({
     full_name: yup
@@ -424,7 +437,24 @@ const ModalDoctor = forwardRef((props, ref) => {
             id="password"
             name="password"
             label="Senha"
-            type="password"
+            type={!visiblePasswd ? "password" : "text"}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="start">
+                  {visiblePasswd === true ? (
+                    <VisibilityIcon
+                      style={{ color: "var(--blue-text)", cursor: "pointer" }}
+                      onClick={() => setVisiblePasswd(false)}
+                    />
+                  ) : (
+                    <VisibilityOffIcon
+                      style={{ color: "var(--blue-text)", cursor: "pointer" }}
+                      onClick={() => setVisiblePasswd(true)}
+                    />
+                  )}
+                </InputAdornment>
+              ),
+            }}
             value={formikDoctor.values.password}
             onChange={formikDoctor.handleChange}
             error={
@@ -442,7 +472,7 @@ const ModalDoctor = forwardRef((props, ref) => {
             id="confirmPassword"
             name="confirmPassword"
             label="Confirmar Senha"
-            type="password"
+            type={!visiblePasswd ? "password" : "text"}
             value={formikDoctor.values.confirmPassword}
             onChange={formikDoctor.handleChange}
             error={

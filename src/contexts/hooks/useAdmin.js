@@ -7,8 +7,18 @@ export default function useAdmin() {
   const [numDoctors, setNumDoctor] = useState(0);
   const [numPatients, setNumPatients] = useState(0);
   const [clicked, setClicked] = useState(false);
+  const [order, setOrder] = useState("date");
+  const [filterBy, setFilterBy] = useState("");
 
-  async function getLoginList(){
+  function sortJSON(key, arr) {
+    return arr.sort(function (a, b) {
+      var x = a[key];
+      var y = b[key];
+      return x < y ? -1 : x > y ? 1 : 0;
+    });
+  }
+
+  async function getLoginList() {
     const response = await api.get("users/list/logins");
     return response.data;
   }
@@ -18,13 +28,13 @@ export default function useAdmin() {
       await api.post("/doctors/create", {
         full_name: user.full_name,
         specialty: user.specialty,
-        login: user.login.replace(/[.,/*+;'"_-]/g , ""),
+        login: user.login.replace(/[.,/*+;'"_-]/g, ""),
         hashed_password: user.password,
       });
     } else {
       await api.post("/patients/create", {
         full_name: user.full_name,
-        login: user.login.replace(/[.,/*+;'"_-]/g , ""),
+        login: user.login.replace(/[.,/*+;'"_-]/g, ""),
         hashed_password: user.password,
       });
     }
@@ -33,17 +43,21 @@ export default function useAdmin() {
 
   async function getDoctors() {
     const response = await api.get("doctors/list");
-    setDoctors(response.data);
+    order === "alfa"
+      ? setDoctors(sortJSON("full_name", response.data))
+      : setDoctors(response.data);
 
     setNumDoctor(response.data.length);
-  };
+  }
 
   async function getPatients() {
     const response = await api.get("patients/list");
-    setPatients(response.data);
+    order === "alfa"
+      ? setPatients(sortJSON("full_name", response.data))
+      : setPatients(response.data);
 
     setNumPatients(response.data.length);
-  };
+  }
 
   const deleteUser = async (type, user_id) => {
     if (type === "Médicos") {
@@ -62,13 +76,17 @@ export default function useAdmin() {
   useEffect(() => {
     getDoctors();
     getPatients();
-  }, [clicked]);
+  }, [clicked, order]);
 
   return {
     numPatients,
     numDoctors,
     doctors,
     patients,
+    order,
+    filterBy, 
+    setFilterBy,
+    setOrder,
     getLoginList,
     handleAdd,
     deleteUser,
