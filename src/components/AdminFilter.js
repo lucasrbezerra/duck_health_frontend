@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../styles/components/AdminFilter.module.css";
 import { withStyles } from "@material-ui/core/styles";
-import { Radio, RadioGroup, FormControl, FormLabel } from "@material-ui/core";
+import { Radio, RadioGroup, FormControl } from "@material-ui/core";
 import Searchbar from "../components/Searchbar";
 
 const RadioButton = withStyles({

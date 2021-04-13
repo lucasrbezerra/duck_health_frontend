@@ -9,7 +9,6 @@ import {
   DialogContent,
   InputAdornment,
 } from "@material-ui/core";
-//import { AnimatedList } from "react-animated-list";
 import { makeStyles } from "@material-ui/core/styles";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
@@ -69,11 +68,6 @@ export default function AdminList(props) {
         <FlipMove>
           {data
             .filter((item) => {
-              console.log("info: ", filterBy);
-              console.log(
-                "item:",
-                item.full_name.toLowerCase().includes(filterBy.toLowerCase())
-              );
               return item.full_name
                 .toLowerCase()
                 .includes(filterBy.toLowerCase());
@@ -85,7 +79,9 @@ export default function AdminList(props) {
                   id={item.id}
                   type={item.user_class}
                   full_name={item.full_name}
-                  subtitle={title === "Médicos" ? item.specialty : item.login}
+                  subtitle={
+                    title === "Médicos" ? item.specialty : formatCPF(item.login)
+                  }
                   deleteUser={deleteUser}
                   size={data.length}
                   ref={refCard}
@@ -565,6 +561,19 @@ function validateCPF(cpf) {
     findK(filtered) === parseInt(filtered.charAt(filtered.length - 1));
 
   return condition1 && condition2 && condition3 && condition4 ? true : false;
+}
+
+function formatCPF(cpf) {
+  const formatedCPF =
+    cpf.substr(0, 3) +
+    "." +
+    cpf.substr(3, 3) +
+    "." +
+    cpf.substr(6, 3) +
+    "-" +
+    cpf.substr(9, 2);
+
+  return formatedCPF;
 }
 
 function findJ(cpf) {
