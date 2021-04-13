@@ -1,11 +1,18 @@
 import React, { useState, forwardRef, useRef } from "react";
 import styles from "../styles/components/AdminList.module.css";
-
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { TextField, Button, Modal, DialogContent } from "@material-ui/core";
+import {
+  TextField,
+  Button,
+  Modal,
+  DialogContent,
+  InputAdornment,
+} from "@material-ui/core";
 import { AnimatedList } from "react-animated-list";
 import { makeStyles } from "@material-ui/core/styles";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 
 export default function AdminList(props) {
   const { data, title, handleAdd, deleteUser, getLoginList } = props;
@@ -58,7 +65,7 @@ export default function AdminList(props) {
         />
       </header>
       <main style={{ position: "relative" }} className={styles.listContainer}>
-        <AnimatedList typeName={null} animation={"grow"}>
+        <AnimatedList animation={"slide"}>
           {data.map(function (item, index) {
             return (
               <Card
@@ -68,6 +75,7 @@ export default function AdminList(props) {
                 full_name={item.full_name}
                 subtitle={title === "Médicos" ? item.specialty : item.login}
                 deleteUser={deleteUser}
+                size={data.length}
                 ref={refCard}
               />
             );
@@ -117,6 +125,7 @@ const RegisterModal = (props) => {
 
 const ModalPatient = forwardRef((props, ref) => {
   const { classes, modalStyle, handleAdd, handleClose, loginList } = props;
+  const [visiblePasswd, setVisiblePasswd] = useState(false);
 
   const validationSchemaPatient = yup.object({
     full_name: yup
@@ -201,6 +210,7 @@ const ModalPatient = forwardRef((props, ref) => {
               formikPatient.touched.full_name && formikPatient.errors.full_name
             }
           />
+
           <TextField
             variant="outlined"
             margin="normal"
@@ -218,6 +228,7 @@ const ModalPatient = forwardRef((props, ref) => {
               formikPatient.touched.login && formikPatient.errors.login
             }
           />
+
           <TextField
             variant="outlined"
             margin="normal"
@@ -225,8 +236,25 @@ const ModalPatient = forwardRef((props, ref) => {
             id="password"
             name="password"
             label="Senha"
-            type="password"
+            type={!visiblePasswd ? "password" : "text"}
             value={formikPatient.values.password}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="start">
+                  {visiblePasswd === true ? (
+                    <VisibilityIcon
+                      style={{ color: "var(--blue-text)", cursor: "pointer" }}
+                      onClick={() => setVisiblePasswd(false)}
+                    />
+                  ) : (
+                    <VisibilityOffIcon
+                      style={{ color: "var(--blue-text)", cursor: "pointer" }}
+                      onClick={() => setVisiblePasswd(true)}
+                    />
+                  )}
+                </InputAdornment>
+              ),
+            }}
             onChange={formikPatient.handleChange}
             error={
               formikPatient.touched.password &&
@@ -243,7 +271,7 @@ const ModalPatient = forwardRef((props, ref) => {
             id="confirmPassword"
             name="confirmPassword"
             label="Confirmar Senha"
-            type="password"
+            type={!visiblePasswd ? "password" : "text"}
             value={formikPatient.values.confirmPassword}
             onChange={formikPatient.handleChange}
             error={
@@ -443,11 +471,11 @@ const ModalDoctor = forwardRef((props, ref) => {
 });
 
 const Card = forwardRef((props, ref) => {
-  const { id, type, full_name, subtitle, deleteUser } = props;
+  const { id, type, full_name, subtitle, deleteUser, size } = props;
   return (
     <div
       onClick={() => console.log(`id: ${id}`)}
-      className={styles.cardContent}
+      className={size <= 5 ? styles.cardContent : styles.cardContentResize}
       ref={ref}
     >
       <div className={styles.profileData}>

@@ -52,25 +52,41 @@
 
 /* Card */
 .listContainer {
-  position: relative;
   overflow: auto;
   display: grid;
   max-height: 78%;
   min-height: 78%;
-  max-width: 95%;
-  min-width: 95%;
-  margin-left: 5%;
   padding: 1rem;
   padding-right: 1rem;
   grid-auto-rows: 20.5%;
 }
 
 .cardContent {
+  background: aqua;
   display: flex;
   border-radius: 0.5rem;
-  margin: 0.5rem 0;
-  max-width: 98%;
-  min-width: 98%;
+  margin: 2.5% 0 0% 5%;
+  max-width: 90%;
+  min-width: 90%;
+  max-height: 85%;
+  min-height: 85%;
+  background: linear-gradient(
+    180deg,
+    var(--linear-gradient-primary) 0%,
+    var(--linear-gradient-secundary) 100%
+  );
+  cursor: pointer;
+}
+
+.cardContentResize {
+  background: aqua;
+  display: flex;
+  border-radius: 0.5rem;
+  margin: 2.5% 0 0% 5%;
+  max-width: 93%;
+  min-width: 93%;
+  max-height: 85%;
+  min-height: 85%;
   background: linear-gradient(
     180deg,
     var(--linear-gradient-primary) 0%,
@@ -144,7 +160,7 @@
   width: 80%;
   display: flex;
   justify-content: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.2rem;
 }
 
 .mainTextPatient {
