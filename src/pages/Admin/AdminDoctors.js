@@ -11,6 +11,7 @@ function AdminDoctors(props) {
     doctors,
     numDoctors,
     handleAdd,
+    handleEdit,
     deleteUser,
     getLoginList,
     filterBy,
@@ -27,6 +28,7 @@ function AdminDoctors(props) {
           data={doctors}
           getLoginList={getLoginList}
           handleAdd={handleAdd}
+          handleEdit={handleEdit}
           deleteUser={deleteUser}
           filterBy={filterBy}
         />

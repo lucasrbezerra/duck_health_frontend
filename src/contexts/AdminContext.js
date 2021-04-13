@@ -15,6 +15,7 @@ function AdminProvider({ children }) {
     setOrder,
     getLoginList,
     handleAdd,
+    handleEdit,
     deleteUser,
   } = useAdmin();
 
@@ -30,6 +31,7 @@ function AdminProvider({ children }) {
         setFilterBy,
         setOrder,
         getLoginList,
+        handleEdit,
         handleAdd,
         deleteUser,
       }}
