@@ -3,7 +3,8 @@ import styles from "../styles/components/Sidebar.module.css";
 import { Link, useLocation } from "react-router-dom";
 
 export default function Sidebar(props) {
-  const { mode } = props;
+  var { mode } = props;
+  console.log("mode:", mode);
 
   var location = useLocation();
   console.log(location.pathname);
@@ -16,7 +17,7 @@ export default function Sidebar(props) {
         src="img/DuckHealth_PNG.png"
         alt="duck"
       ></img>
-      {mode === "extended" ? extendOptions(location.pathname) : <></>}
+      {mode !== "extended" ? <></> :  extendOptions(location.pathname)}
       <button onClick={() => console.log("logout!")} className={styles.logout}>
         <i className="fas fa-sign-out-alt"></i>
       </button>
@@ -24,57 +25,59 @@ export default function Sidebar(props) {
   );
 }
 
-const extendOptions = (location) => (
-  <div className={styles.extend}>
-    {location !== "/admin/patients" ? (
-      <div className={styles.contain}>
-        <div className={styles.selectorNotActive}></div>
-        <div className={styles.right}>
-          <Link to="/admin/patients">
-            <button className={styles.notActive}>
-              <i className="fas fa-user-injured"></i>
-            </button>
-          </Link>
-          <p className={styles.infoOff}>Pacientes</p>
+const extendOptions = (location) => {
+  return (
+    <div className={styles.extend}>
+      {location !== "/admin/patients" ? (
+        <div className={styles.contain}>
+          <div className={styles.selectorNotActive}></div>
+          <div className={styles.right}>
+            <Link to="/admin/patients">
+              <button className={styles.notActive}>
+                <i className="fas fa-user-injured"></i>
+              </button>
+            </Link>
+            <p className={styles.infoOff}>Pacientes</p>
+          </div>
         </div>
-      </div>
-    ) : (
-      <div className={styles.contain}>
-        <div className={styles.selectorActive}></div>
-        <div className={styles.right}>
-          <Link to="/admin/patients">
-            <button className={styles.active}>
-              <i className="fas fa-user-injured"></i>
-            </button>
-          </Link>
-          <p className={styles.infoOn}>Pacientes</p>
+      ) : (
+        <div className={styles.contain}>
+          <div className={styles.selectorActive}></div>
+          <div className={styles.right}>
+            <Link to="/admin/patients">
+              <button className={styles.active}>
+                <i className="fas fa-user-injured"></i>
+              </button>
+            </Link>
+            <p className={styles.infoOn}>Pacientes</p>
+          </div>
         </div>
-      </div>
-    )}
-    {location !== "/admin/doctors" ? (
-      <div className={styles.contain}>
-        <div className={styles.selectorNotActive}></div>
-        <div className={styles.right}>
-          <Link to="/admin/doctors">
-            <button className={styles.notActive}>
-              <i className="fas fa-user-md"></i>
-            </button>
-          </Link>
-          <p className={styles.infoOff}>Médicos</p>
+      )}
+      {location !== "/admin/doctors" ? (
+        <div className={styles.contain}>
+          <div className={styles.selectorNotActive}></div>
+          <div className={styles.right}>
+            <Link to="/admin/doctors">
+              <button className={styles.notActive}>
+                <i className="fas fa-user-md"></i>
+              </button>
+            </Link>
+            <p className={styles.infoOff}>Médicos</p>
+          </div>
         </div>
-      </div>
-    ) : (
-      <div className={styles.contain}>
-        <div className={styles.selectorActive}></div>
-        <div className={styles.right}>
-          <Link to="/admin/doctors">
-            <button className={styles.active}>
-              <i className="fas fa-user-md"></i>
-            </button>
-          </Link>
-          <p className={styles.infoOn}>Médicos</p>
+      ) : (
+        <div className={styles.contain}>
+          <div className={styles.selectorActive}></div>
+          <div className={styles.right}>
+            <Link to="/admin/doctors">
+              <button className={styles.active}>
+                <i className="fas fa-user-md"></i>
+              </button>
+            </Link>
+            <p className={styles.infoOn}>Médicos</p>
+          </div>
         </div>
-      </div>
-    )}
-  </div>
-);
+      )}
+    </div>
+  );
+};
