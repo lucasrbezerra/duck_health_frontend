@@ -1,0 +1,33 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 12vh;
+    width: 85%;
+    border-bottom: 2px solid #2e4a7d7c;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 55%;
+}
+
+.extend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1.5rem;
+    height: 50%;
+    width: 30%;
+    background: var(--blue-buttom-sidebar);
+    margin-right: 5%;
+}
+
+.extend > h4 {
+    color: white;
+    position: relative;
+    right: 12px;
+}
