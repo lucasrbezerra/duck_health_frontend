@@ -4,10 +4,8 @@ import { Link, useLocation } from "react-router-dom";
 
 export default function Sidebar(props) {
   var { mode } = props;
-  console.log("mode:", mode);
 
   var location = useLocation();
-  console.log(location.pathname);
 
   return (
     <aside className={styles.container}>
