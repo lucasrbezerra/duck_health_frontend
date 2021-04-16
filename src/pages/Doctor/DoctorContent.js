@@ -15,7 +15,6 @@ export default function DoctorContent() {
   } = useContext(DoctorContext);
 
   const { doctorId } = useParams();
-  console.log("in content:", doctorId);
 
   return (
     <div className={styles.content}>

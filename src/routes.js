@@ -6,7 +6,9 @@ import {
   Redirect,
 } from "react-router-dom";
 
+import { getCurrentUser } from "./services/auth";
 import { PrivateRoute } from "./routes/PrivateRoute";
+import { isAuth } from "./services/auth";
 
 import Admin from "./pages/Admin";
 import AdminPatients from "./pages/Admin/AdminPatients";
@@ -28,13 +30,13 @@ import LoginContent from "./pages/Login/LoginContent";
 export default function Routes() {
   return (
     <Router>
-      <Redirect from="/" to="/login" />
+      <Redirect from="/" to="/home" />
       <Switch>
         <Route
           path="/home"
           render={(props) => (
             <Home {...props}>
-              <Route exact path="/home" component={HomeContent} />
+              <Route path="/home" component={HomeContent} />
             </Home>
           )}
         />
@@ -42,55 +44,61 @@ export default function Routes() {
           path="/login"
           render={(props) => (
             <Login {...props}>
-              <Redirect from={"/login"} to={"/login/"} />
-              <Route exact path="/login/" component={LoginContent} />
+              <Redirect from="/login" to="/login/" />
+              <Route path="/login/" component={LoginContent} />
             </Login>
           )}
         />
         <Route
           path="/admin"
-          render={(props) => (
-            <Admin {...props}>
-              <Redirect from={"/admin"} to={"/admin/patients"} />
-              <PrivateRoute
-                exact
-                path="/admin/patients"
-                component={AdminPatients}
-              />
-              <PrivateRoute
-                exact
-                path="/admin/doctors"
-                component={AdminDoctors}
-              />
-            </Admin>
-          )}
+          render={(props) =>
+            isAuth ? (
+              <Admin {...props}>
+                <Redirect from={"/admin"} to={"/admin/patients"} />
+                <PrivateRoute
+                  path="/admin/patients"
+                  component={AdminPatients}
+                />
+                <PrivateRoute path="/admin/doctors" component={AdminDoctors} />
+              </Admin>
+            ) : (
+              <div>O Admin não está Online, não é mesmo?!</div>
+            )
+          }
         />
 
         <Route
-          render={(props) => (
-            <Doctor {...props}>
-              <PrivateRoute
-                exact
-                path="/doctor/list/:doctorId"
-                component={DoctorContent}
-              />
-              <PrivateRoute
-                exact
-                path="/doctor/upload/:doctor_id/:patient_id"
-                component={DoctorUpload}
-              />
-            </Doctor>
-          )}
+          path="/doctor"
+          render={(props) =>
+            isAuth() ? (
+              <Doctor {...props}>
+                <Redirect
+                  from="/doctor"
+                  to={`/doctor/list/${getCurrentUser()}`}
+                />
+                <Route
+                  path="/doctor/list/:doctorId"
+                  component={DoctorContent}
+                />
+                <Route
+                  path="/doctor/upload/:doctor_id/:patient_id"
+                  component={DoctorUpload}
+                />
+              </Doctor>
+            ) : (
+              <div>Not Found Doctor Bro</div>
+            )
+          }
         />
 
         <Route
           path="/patient"
           render={(props) => (
             <Patient {...props}>
-              <Redirect from={"/patient"} to={"/patient/list"} />
+              <Redirect from="/patient" to={`/patient/${getCurrentUser()}`}/>
               <PrivateRoute
                 exact
-                path="/patient/list"
+                path="/patient/:patient_id"
                 component={PatientContent}
               />
             </Patient>
