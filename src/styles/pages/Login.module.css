@@ -14,6 +14,7 @@
 }
 
 .loginContent {
+  z-index: 1;
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
@@ -21,9 +22,12 @@
   justify-content: center;
   height: 450px;
   width: 450px;
-  background: linear-gradient(180deg, rgba(49,87,235,1) 0%, rgba(23,204,208,1) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(49, 87, 235, 1) 0%,
+    rgba(23, 204, 208, 1) 100%
+  );
 }
-
 
 .welcome {
   color: white;
@@ -65,4 +69,37 @@
   color: var(--linear-gradient-primary);
   cursor: pointer;
   text-decoration: line;
+}
+
+.curveLeft {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.curveRight {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.logoTop {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  border-radius: 0.5rem;
+  background: var(--blue-buttom-sidebar);
+  width: 65px;
+  height: 65px;
+}
+
+.userNotFound {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: 1rem;
+  border: 1px solid #e63c2d;
+  padding: 0.5rem 0;
+  color: #e63c2d;
 }

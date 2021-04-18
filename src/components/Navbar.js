@@ -9,7 +9,7 @@ import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import { useParams } from "react-router-dom";
 
 export default function Navbar(props) {
-  const { mode, myPatients, setMyPatients, filterBy, setFilterBy, getPatients } = props;
+  const { mode, myPatients, full_name, setMyPatients, filterBy, setFilterBy, getPatients } = props;
 
   const { doctorId } = useParams();
 
@@ -28,7 +28,7 @@ export default function Navbar(props) {
         )}
         <Searchbar filterBy={filterBy} setFilterBy={setFilterBy} />
       </div>
-      <Profile mode={mode} />
+      <Profile mode={mode} full_name={full_name} />
     </div>
   );
 }

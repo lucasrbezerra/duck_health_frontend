@@ -6,9 +6,8 @@ import {
   Redirect,
 } from "react-router-dom";
 
-import { getCurrentUser } from "./services/auth";
 import { PrivateRoute } from "./routes/PrivateRoute";
-import { isAuth } from "./services/auth";
+import { isAuth, getCurrentUser, getCurrentUserClass } from "./services/auth";
 
 import Admin from "./pages/Admin";
 import AdminPatients from "./pages/Admin/AdminPatients";
@@ -52,7 +51,7 @@ export default function Routes() {
         <Route
           path="/admin"
           render={(props) =>
-            isAuth ? (
+            isAuth && getCurrentUserClass() === "admin" ? (
               <Admin {...props}>
                 <Redirect from={"/admin"} to={"/admin/patients"} />
                 <PrivateRoute
@@ -62,7 +61,7 @@ export default function Routes() {
                 <PrivateRoute path="/admin/doctors" component={AdminDoctors} />
               </Admin>
             ) : (
-              <div>O Admin não está Online, não é mesmo?!</div>
+              <div>O Admin não está Online, não é mesmo Clayson?!</div>
             )
           }
         />
@@ -70,7 +69,7 @@ export default function Routes() {
         <Route
           path="/doctor"
           render={(props) =>
-            isAuth() ? (
+            isAuth() && getCurrentUserClass() === "doctor" ? (
               <Doctor {...props}>
                 <Redirect
                   from="/doctor"
@@ -93,16 +92,20 @@ export default function Routes() {
 
         <Route
           path="/patient"
-          render={(props) => (
-            <Patient {...props}>
-              <Redirect from="/patient" to={`/patient/${getCurrentUser()}`}/>
-              <PrivateRoute
-                exact
-                path="/patient/:patient_id"
-                component={PatientContent}
-              />
-            </Patient>
-          )}
+          render={(props) =>
+            isAuth() && getCurrentUserClass() === "patient" ? (
+              <Patient {...props}>
+                <Redirect from="/patient" to={`/patient/${getCurrentUser()}`} />
+                <PrivateRoute
+                  exact
+                  path="/patient/:patient_id"
+                  component={PatientContent}
+                />
+              </Patient>
+            ) : (
+              <div>Is not a patient</div>
+            )
+          }
         />
 
         <Route path="*" component={() => <h1>Page not found</h1>} />

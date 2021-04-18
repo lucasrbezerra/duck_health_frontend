@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import api from "../../services/api";
 import { loginAuth } from "../../services/auth";
@@ -6,26 +6,31 @@ import { makeStyles } from "@material-ui/core/styles";
 import styles from "../../styles/pages/Login.module.css";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { Link } from "react-router-dom";
 import { TextField, Button, InputAdornment } from "@material-ui/core";
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 import LockRoundedIcon from "@material-ui/icons/LockRounded";
 
 export default function LoginContent() {
   const classes = useStyles();
-
+  const [invalid, setInvalid] = useState(false);
   const history = useHistory();
 
   const validationSchemaLogin = yup.object({
     login: yup
       .string("Escreva seu CPF")
-      .min(11, "Número de CPF inválido!")
       .required("Preencha com o CPF")
       .test("unique-login", "CPF inválido", function (val) {
-        return val === undefined ? "" : validateCPF(val);
+        return val === undefined || val === "admin" ? true : validateCPF(val);
       }),
     password: yup
       .string("Escreva uma senha")
       .min(8, "Senha deve ter no minimo 8 digitos!")
+      .when("login", {
+        is: (val) => val !== "admin",
+        then: yup.string().min(8),
+        otherwise: yup.string().min(0),
+      })
       .required("Preencha a senha"),
   });
 
@@ -40,18 +45,20 @@ export default function LoginContent() {
 
       try {
         const response = await api.post("/login", { login, password });
-        const { token, role, id, full_name } = response.data;
-        loginAuth(id, token);
+        console.log("response:", response.data);
 
-        switch (role) {
+        const { token, user_class, id, full_name } = response.data;
+        loginAuth(id, full_name, user_class, token);
+
+        switch (user_class) {
           case "admin":
             history.push("/admin");
             break;
           case "patient":
-            history.push(`/patient/${id}`, { id, full_name, role });
+            history.push(`/patient/${id}`);
             break;
           case "doctor":
-            history.push(`/doctor/list/${id}`, { id, full_name, role });
+            history.push(`/doctor/list/${id}`);
             break;
           default:
             history.push("/login");
@@ -59,18 +66,41 @@ export default function LoginContent() {
         }
       } catch (err) {
         console.log("ERRO:", err);
+        setInvalid(true);
       }
     },
   });
 
   return (
     <div className={styles.content}>
+      <Link style={{ textDecoration: "none" }} to="/home">
+        <img
+          className={styles.logoTop}
+          src="/img/DuckHealth_PNG.png"
+          alt="logo"
+        ></img>
+      </Link>
+      <img
+        className={styles.curveLeft}
+        src="/img/bg-login-curves-left.svg"
+        alt="curves"
+      ></img>
+      <img
+        className={styles.curveRight}
+        src="/img/bg-login-curves-right.svg"
+        alt="curves"
+      ></img>
       <div className={styles.loginContent}>
         <h1 className={styles.welcome}>Bem-vindo</h1>
         <h2 className={styles.descrip}>
           Acesse seus <span>laudos</span> agora!
         </h2>
         <div className={styles.formContent}>
+          {invalid && (
+            <div className={styles.userNotFound}>
+              <h3>CPF ou Senha inválida!</h3>
+            </div>
+          )}
           <form
             className={styles.formFields}
             onSubmit={formikLogin.handleSubmit}
