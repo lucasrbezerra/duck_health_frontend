@@ -28,7 +28,7 @@ export default function LoginContent() {
       .min(8, "Senha deve ter no minimo 8 digitos!")
       .when("login", {
         is: (val) => val !== "admin",
-        then: yup.string().min(8),
+        then: yup.string().min(8, "Senha deve ter no minimo 8 digitos!"),
         otherwise: yup.string().min(0),
       })
       .required("Preencha a senha"),
