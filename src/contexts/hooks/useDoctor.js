@@ -5,6 +5,7 @@ export default function useDoctor() {
   const [patients, setPatients] = useState([]);
   const [myPatients, setMyPatients] = useState(false);
   const [filterBy, setFilterBy] = useState("");
+  const [clicked, setClicked] = useState(false);
 
   function sortJSON(key, arr) {
     return arr.sort(function (a, b) {
@@ -32,6 +33,8 @@ export default function useDoctor() {
     patients,
     myPatients,
     filterBy,
+    clicked,
+    setClicked,
     setMyPatients,
     getPatients,
     setFilterBy,

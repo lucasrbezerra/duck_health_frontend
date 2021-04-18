@@ -7,7 +7,7 @@ export default function Profile(props) {
     <div className={styles.container}>
       <div className={styles.text}>
         <h3>Olá, <span className={styles.span}>{full_name}</span></h3>
-        {mode === "extended" ? <h4>Médico</h4> : <h4>Paciente</h4>}
+        {mode === "extended" || mode === "upload"? <h4>Médico</h4> : <h4>Paciente</h4>}
       </div>
       {mode === "extended" ? (
         <img src="/img/doctor.png" alt="doctor"></img>

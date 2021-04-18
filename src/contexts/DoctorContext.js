@@ -7,7 +7,9 @@ function DoctorProvider({ children }) {
   const {
     patients,
     myPatients,
-    filterBy, 
+    filterBy,
+    clicked,
+    setClicked,
     setMyPatients,
     getPatients,
     setFilterBy,
@@ -18,7 +20,9 @@ function DoctorProvider({ children }) {
       value={{
         patients,
         myPatients,
-        filterBy, 
+        filterBy,
+        clicked,
+        setClicked,
         setMyPatients,
         getPatients,
         setFilterBy,
