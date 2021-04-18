@@ -3,6 +3,7 @@ import styles from "../../styles/pages/Doctor.module.css";
 import Navbar from "../../components/Navbar";
 import { DoctorContext } from "../../contexts/DoctorContext";
 import { Link, useParams } from "react-router-dom";
+import { getCurrentFullName } from '../../services/auth';
 
 export default function DoctorContent() {
   const {
@@ -15,12 +16,14 @@ export default function DoctorContent() {
   } = useContext(DoctorContext);
 
   const { doctorId } = useParams();
-  console.log("in content:", doctorId);
+  const full_name = getCurrentFullName();
+
 
   return (
     <div className={styles.content}>
       <Navbar
         mode="extended"
+        full_name={full_name}
         myPatients={myPatients}
         setMyPatients={setMyPatients}
         filterBy={filterBy}

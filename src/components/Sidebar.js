@@ -1,11 +1,18 @@
 import React from "react";
 import styles from "../styles/components/Sidebar.module.css";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import { logout, getToken } from "../services/auth";
 
 export default function Sidebar(props) {
   var { mode } = props;
 
   var location = useLocation();
+  var history = useHistory();
+
+  const handleLogout = async () => {
+    await logout(getToken());
+    history.push("/login");
+  };
 
   return (
     <aside className={styles.container}>
@@ -15,8 +22,8 @@ export default function Sidebar(props) {
         src="img/DuckHealth_PNG.png"
         alt="duck"
       ></img>
-      {mode !== "extended" ? <></> :  extendOptions(location.pathname)}
-      <button onClick={() => console.log("logout!")} className={styles.logout}>
+      {mode !== "extended" ? <></> : extendOptions(location.pathname)}
+      <button onClick={handleLogout} className={styles.logout}>
         <i className="fas fa-sign-out-alt"></i>
       </button>
     </aside>
