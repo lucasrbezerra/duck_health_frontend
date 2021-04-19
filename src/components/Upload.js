@@ -1,20 +1,11 @@
 import React, { useState } from "react";
 import styles from "../styles/components/Upload.module.css";
-import DateFnsUtils from 'date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
 import * as yup from "yup";
 import { Formik } from "formik";
 import { useDropzone } from "react-dropzone";
+import TextField from "@material-ui/core/TextField";
 
 export default function Upload(props) {
-  const handleSubmit = (e) => {
-    console.log("submit", e.target.value);
-  };
-
   return (
     <div className={styles.container}>
       <header className={styles.head}>
@@ -22,15 +13,14 @@ export default function Upload(props) {
       </header>
       <main className={styles.body}>
         <Formik
-          initialValues={{ files: null, title: "" }}
+          initialValues={{ files: null, title: "", date: null }}
           onSubmit={(values) => {
             console.log({
               files: values.files.map((file) => ({
                 fileName: file.name,
-                type: file.type,
-                size: `${file.size} bytes`,
               })),
               title: values.title,
+              date: values.date,
             });
           }}
           validationSchema={yup.object().shape({
@@ -38,34 +28,44 @@ export default function Upload(props) {
           })}
           render={({ values, handleSubmit, setFieldValue, handleChange }) => {
             return (
-              <form className={styles.formContent} onSubmit={handleSubmit}>
+              <form
+                className={styles.formContent}
+                onSubmit={handleSubmit}
+                noValidate
+              >
                 <UploadComponent setFieldValue={setFieldValue} />
                 <div className={styles.formsReport}>
-                  <input
+                  <TextField
                     id="title"
+                    variant="outlined"
+                    margin="normal"
+                    className={styles.fieldTitle}
                     name="title"
+                    label="Título"
                     value={values.title}
                     onChange={handleChange}
                   />
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      disableToolbar
-                      variant="inline"
-                      format="dd/mm/yyyy"
+                  <div className={styles.dateContent}>
+                    <TextField
+                      id="date"
+                      variant="outlined"
                       margin="normal"
-                      id="date-picker-inline"
-                      label="Date picker inline"
-                      value={selectedDate}
-                      onChange={handleDateChange}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
+                      type="datetime-local"
+                      className={styles.fieldDate}
+                      name="date"
+                      label="Data do Exame"
+                      value={values.date}
+                      onChange={handleChange}
+                      defaultValue={`${Date.now()}`}
+                      InputLabelProps={{
+                        shrink: true,
                       }}
                     />
-                  </MuiPickersUtilsProvider>
+                    <button type="submit" className={styles.submit}>
+                      Enviar
+                    </button>
+                  </div>
                 </div>
-                <button type="submit" className="btn btn-primary">
-                  Enviar
-                </button>
               </form>
             );
           }}

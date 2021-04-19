@@ -29,7 +29,11 @@ export default function ReportList(props) {
 
     await getReportsByPatient(patient_id);
 
-    return () => setReports([]);
+    return () => {
+      setReports([]);
+      setPatientOwner("");
+    };
+    
   }, [clicked]);
 
   console.log("reports", reports);
