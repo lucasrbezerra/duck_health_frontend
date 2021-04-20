@@ -25,6 +25,23 @@ export default function useDoctor() {
     }
   }
 
+  async function uploadReport(values, doctor_id, patient_id) {
+    await api.post(`/reports/${doctor_id}/${patient_id}`, {
+      title: values.title ,
+      date_exam: new Date(values.date).toISOString(),
+      link: "http://www.warm.com"
+    })
+  }
+
+  async function deleteReport(report_id) {
+    try{
+      await api.delete(`reports/del/${report_id}`)
+      setClicked(!clicked);
+    }catch (err) {
+      console.log("useDoctor: ", err);
+    }
+  }
+
   useEffect(() => {
     getPatients();
   }, []);
@@ -35,6 +52,8 @@ export default function useDoctor() {
     filterBy,
     clicked,
     setClicked,
+    uploadReport,
+    deleteReport,
     setMyPatients,
     getPatients,
     setFilterBy,

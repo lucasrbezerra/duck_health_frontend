@@ -11,6 +11,8 @@ function DoctorProvider({ children }) {
     clicked,
     setClicked,
     setMyPatients,
+    uploadReport,
+    deleteReport,
     getPatients,
     setFilterBy,
   } = useDoctor();
@@ -24,6 +26,8 @@ function DoctorProvider({ children }) {
         clicked,
         setClicked,
         setMyPatients,
+        uploadReport,
+        deleteReport,
         getPatients,
         setFilterBy,
       }}
