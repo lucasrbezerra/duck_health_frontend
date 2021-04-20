@@ -20,7 +20,7 @@ export default function ReportList(props) {
       try {
         const response = await api.get(`patients/reports/${patient_id}`);
         const patient = await api.get(`patients/${patient_id}`);
-        setReports(response.data);
+        setReports(response.data.reverse());
         setPatientOwner(patient.data);
       } catch (err) {
         console.log("ReportList: ", err);
@@ -36,7 +36,6 @@ export default function ReportList(props) {
     
   }, [clicked]);
 
-  console.log("reports", reports);
   const refCard = useRef(null);
 
   return (
@@ -80,16 +79,7 @@ const Card = forwardRef((props, ref) => {
     subtitle,
     deleteReport,
     size,
-    handleOpen,
-    setTypeModal,
-    setUserEdit,
   } = props;
-
-  const onEdit = (item) => {
-    setTypeModal("edit");
-    setUserEdit(item);
-    handleOpen();
-  };
 
   return (
     <div
@@ -107,7 +97,7 @@ const Card = forwardRef((props, ref) => {
         </button>
         <button
           type="submit"
-          onClick={() => deleteReport(item.user_class, item.id)}
+          onClick={() => deleteReport(item.id)}
         >
           <i className="far fa-trash-alt"></i>
         </button>
