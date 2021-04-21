@@ -13,8 +13,163 @@
   background: #ebf2f5;
 }
 
+/* Cards */
+
 .main {
-  
   height: 100%;
-  width: 85%; 
+  width: 100%;
+
+  padding: 0 6.2% 0rem 7.4%;
+  margin: 1rem 0;
+
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 40vh;
+
+  column-gap: 5em;
+  row-gap: 2rem;
+
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+/* card-container */
+.cardContent {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 0.5rem;
+
+  display: grid;
+
+  grid-template-columns: 3fr 2fr;
+  grid-template-areas:
+    "card card"
+    "card card "
+    "date download";
+}
+
+.cardData {
+  grid-area: card;
+  background: linear-gradient(
+    180deg,
+    #ffd666 0%,
+    rgba(255, 214, 102, 0.5) 100%
+  );
+
+  border-radius: 0.5rem;
+  border-bottom-left-radius: 0px;
+  margin: 20px 20px 0px 20px;
+}
+
+.cardHeader {
+  height: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-bottom: 3px solid white;
+}
+
+.cardHeader h2 {
+  position: relative;
+  left: 50px;
+  color: var(--blue-text);
+  font-size: 1.5rem;
+}
+
+.cardIcon {
+  width: 75px;
+  height: 75px;
+  background: var(--blue-text);
+  border-radius: 50%;
+  border: 3px solid white;
+
+  position: relative;
+  bottom: 40px;
+  left: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardIcon i {
+  width: 40px;
+}
+
+.description {
+  position: relative;
+  left: 45px;
+  bottom: 20px;
+  line-height: 2.5rem;
+}
+
+.description h2 {
+  color: var(--blue-text);
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.description p {
+  color: #2e4a7dc5;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.dateExam {
+  grid-area: date;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 214, 102, 0.5) 0%,
+    #ffd666 100%
+  );
+  margin-left: 20px;
+  margin-bottom: 30px;
+
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.dateExam img {
+  width: 35px;
+  margin-left: 40px;
+  border-right: 1px solid var(--blue-text);
+  padding: 0 5px;
+}
+
+.dateExam h3 {
+  margin-left: 10px;
+  color: var(--blue-text);
+}
+
+.download {
+  grid-area: download;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 10px 20px 10px 10px;
+  background: var(--blue-button);
+  border: none;
+  border-radius: 8px;
+  height: 65%;
+  cursor: pointer;
+}
+
+.download:hover {
+  background: var(--blue-buttom-sidebar);
+  transition: 0.2s ease-in;
+}
+
+.download > i {
+  color: white;
+  font-size: 1.5rem;
+  margin-left: 16px;
+}
+
+.download u {
+  color: white;
+  font-size: 1.1rem;
+  margin-right: 16px;
 }
