@@ -8,18 +8,35 @@ import Upload from "../../components/Upload";
 import { useParams } from "react-router-dom";
 
 export default function DoctorUpload() {
-  const { clicked, setClicked, uploadReport, deleteReport } = useContext(
-    DoctorContext
-  );
+  const {
+    clicked,
+    setClicked,
+    filterBy,
+    setFilterBy,
+    uploadReport,
+    deleteReport,
+    downloadReport,
+  } = useContext(DoctorContext);
 
   const full_name = getCurrentFullName();
+
   const { doctor_id, patient_id } = useParams();
 
   return (
     <div className={styles.content}>
-      <Navbar mode="upload" full_name={full_name} />
+      <Navbar
+        mode="upload"
+        full_name={full_name}
+        filterBy={filterBy}
+        setFilterBy={setFilterBy}
+      />
       <div className={styles.uploadContainer}>
-        <ReportList clicked={clicked} deleteReport={deleteReport}/>
+        <ReportList
+          filterBy={filterBy}
+          clicked={clicked}
+          deleteReport={deleteReport}
+          downloadReport={downloadReport}
+        />
         <Upload
           patientId={patient_id}
           uploadReport={uploadReport}

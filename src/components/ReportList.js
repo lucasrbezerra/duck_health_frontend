@@ -7,11 +7,12 @@ import api from "../services/api";
 import { useParams } from "react-router-dom";
 
 export default function ReportList(props) {
-  const { clicked, deleteReport } = props;
+  const { clicked, deleteReport, downloadReport, filterBy } = props;
 
   const [success, setSuccess] = useState(false);
   const [reports, setReports] = useState([]);
   const [patientOwner, setPatientOwner] = useState("");
+  const [doctorOwner, setDoctorOwner] = useState("");
 
   const { patient_id } = useParams();
 
@@ -24,40 +25,53 @@ export default function ReportList(props) {
         setPatientOwner(patient.data);
       } catch (err) {
         console.log("ReportList: ", err);
+        return () => {
+          setReports([]);
+          setPatientOwner("");
+        };
       }
     }
-
     await getReportsByPatient(patient_id);
-
-    return () => {
-      setReports([]);
-      setPatientOwner("");
-    };
     
   }, [clicked]);
+
+  async function getHistoric(report_id) {
+    const response = await api.get(`reports/historic/${report_id}`);
+    setDoctorOwner(response.data.full_name);
+  }
 
   const refCard = useRef(null);
 
   return (
     <div className={styles.container}>
       <header className={styles.head}>
-        <img src="/img/doctor.png" alt="médico"></img>
+        <img src="/img/patient.png" alt="patient"></img>
         <h2>Laudos de {patientOwner}</h2>
       </header>
       <main style={{ position: "relative" }} className={styles.listContainer}>
         <FlipMove>
-          {reports.map(function (item, index) {
-            return (
-              <Card
-                key={index}
-                item={item}
-                subtitle={item.doctorOwner.full_name}
-                deleteReport={deleteReport}
-                size={reports.length}
-                ref={refCard}
-              />
-            );
-          })}
+          {reports
+            .filter((item) => {
+              return item.title.toLowerCase().includes(filterBy.toLowerCase());
+            })
+            .map(function (item, index) {
+              if (item.doctorOwner === null) getHistoric(item.id);
+              return (
+                <Card
+                  key={index}
+                  item={item}
+                  downloadReport={downloadReport}
+                  subtitle={
+                    item.doctorOwner === null
+                      ? doctorOwner
+                      : item.doctorOwner.full_name
+                  }
+                  deleteReport={deleteReport}
+                  size={reports.length}
+                  ref={refCard}
+                />
+              );
+            })}
         </FlipMove>
       </main>
       <Snackbar
@@ -74,16 +88,15 @@ export default function ReportList(props) {
 }
 
 const Card = forwardRef((props, ref) => {
-  const {
-    item,
-    subtitle,
-    deleteReport,
-    size,
-  } = props;
+  const { item, subtitle, deleteReport, size, downloadReport } = props;
+
+  const downloadHandler = () => {
+    const fileName = item.link;
+    downloadReport(fileName);
+  };
 
   return (
     <div
-      onClick={() => console.log(`id: ${item.id}`)}
       className={size <= 5 ? styles.cardContent : styles.cardContentResize}
       ref={ref}
     >
@@ -92,13 +105,10 @@ const Card = forwardRef((props, ref) => {
         <p>{subtitle}</p>
       </div>
       <div className={styles.buttons}>
-        <button type="submit " onClick={() => console.log("Download!")}>
+        <button type="submit" onClick={() => downloadHandler()}>
           <i className="fas fa-file-download"></i>
         </button>
-        <button
-          type="submit"
-          onClick={() => deleteReport(item.id)}
-        >
+        <button type="submit" onClick={() => deleteReport(item.id)}>
           <i className="far fa-trash-alt"></i>
         </button>
       </div>

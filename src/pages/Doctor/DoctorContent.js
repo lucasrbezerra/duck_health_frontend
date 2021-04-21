@@ -16,8 +16,8 @@ export default function DoctorContent() {
   } = useContext(DoctorContext);
 
   const { doctorId } = useParams();
-  const full_name = getCurrentFullName();
 
+  const full_name = getCurrentFullName();
 
   return (
     <div className={styles.content}>
