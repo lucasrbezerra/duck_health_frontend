@@ -41,17 +41,18 @@ export default function Upload(props) {
       </header>
       <main className={styles.body}>
         <Formik
-          initialValues={{ files: null, title: "", date: "" }}
+          initialValues={{ file: null, title: "", date: "" }}
           onSubmit={async (values) => {
-            await uploadReport(values, doctorId, patientId);
-            values.title = "";
-            values.files = null;
-            values.date = "";
-            setClicked(!clicked);
-            setIsDroped(false);
+            await uploadReport(values, doctorId, patientId).then(() => {
+              values.title = "";
+              values.file = null;
+              values.date = "";
+              setClicked(!clicked);
+              setIsDroped(false);
+            });
           }}
           validationSchema={yup.object().shape({
-            files: yup
+            file: yup
               .mixed("Coloque Arquivos!")
               .required("Nenhum arquivo selecionado!"),
             title: yup
@@ -140,7 +141,7 @@ const UploadComponent = forwardRef((props, ref) => {
     accept:
       "image/*,application/pdf,.doc,.docx,.xls,.xlsx,.csv,.tsv,.ppt,.pptx,.pages,.odt,.rtf",
     onDrop: (acceptedFiles) => {
-      setFieldValue("files", acceptedFiles);
+      setFieldValue("file", acceptedFiles);
       setFileNames(acceptedFiles.map((file) => file.name));
       setIsDroped(true);
     },
@@ -173,7 +174,10 @@ const UploadComponent = forwardRef((props, ref) => {
         <>
           <input
             {...getInputProps()}
-            errors={errors.files}
+            errors={errors.file}
+            type="file"
+            name="file"
+            id="file"
             encType="multipart/form-data"
           />
           {isDragActive ? (
@@ -184,7 +188,7 @@ const UploadComponent = forwardRef((props, ref) => {
           ) : (
             <>
               <i className={`fas fa-upload ${styles.icon}`}></i>
-              <p>Arraste o laudo aqui!</p>
+              <p>Arraste o laudo</p>
               <p>Ou</p>
               <label className={styles.label}>Clique Aqui</label>
             </>

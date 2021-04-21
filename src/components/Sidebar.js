@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/components/Sidebar.module.css";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import { logout, getToken } from "../services/auth";
+import {
+  logout,
+  getToken,
+} from "../services/auth";
 
 export default function Sidebar(props) {
   var { mode } = props;
@@ -9,9 +12,15 @@ export default function Sidebar(props) {
   var location = useLocation();
   var history = useHistory();
 
+  const loc = location.pathname;
+
   const handleLogout = async () => {
     await logout(getToken());
     history.push("/login");
+  };
+
+  const handleGoBack = () => {
+    history.goBack();
   };
 
   return (
@@ -23,9 +32,16 @@ export default function Sidebar(props) {
         alt="duck"
       ></img>
       {mode !== "extended" ? <></> : extendOptions(location.pathname)}
-      <button onClick={handleLogout} className={styles.logout}>
-        <i className="fas fa-sign-out-alt"></i>
-      </button>
+
+      {loc.includes('/doctor/upload/') ? (
+        <button onClick={handleGoBack} className={styles.logout}>
+          <i className="fas fa-arrow-left"></i>
+        </button>
+      ) : (
+        <button onClick={handleLogout} className={styles.logout}>
+          <i className="fas fa-sign-out-alt"></i>
+        </button>
+      )}
     </aside>
   );
 }

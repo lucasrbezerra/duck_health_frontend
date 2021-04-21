@@ -26,18 +26,47 @@ export default function useDoctor() {
   }
 
   async function uploadReport(values, doctor_id, patient_id) {
-    await api.post(`/reports/${doctor_id}/${patient_id}`, {
-      title: values.title ,
-      date_exam: new Date(values.date).toISOString(),
-      link: "http://www.warm.com"
+    const data = new FormData();
+    data.append("file", values.file[0]);
+    data.append("title", values.title);
+    data.append("date_exam", values.date);
+
+    await api
+      .post(`/upload/${doctor_id}/${patient_id}`, data, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log("response", response);
+      });
+  }
+
+  function downloadReport(fileName) {
+    api({
+      method: "get",
+      url: "http://localhost:3333/download/" + fileName,
+      responseType: "blob",
+      headers: {},
     })
+      .then((res) => {
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", fileName);
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch((error) => {
+        alert(error);
+      });
   }
 
   async function deleteReport(report_id) {
-    try{
-      await api.delete(`reports/del/${report_id}`)
+    try {
+      await api.delete(`reports/del/${report_id}`);
       setClicked(!clicked);
-    }catch (err) {
+    } catch (err) {
       console.log("useDoctor: ", err);
     }
   }
@@ -53,6 +82,7 @@ export default function useDoctor() {
     clicked,
     setClicked,
     uploadReport,
+    downloadReport,
     deleteReport,
     setMyPatients,
     getPatients,

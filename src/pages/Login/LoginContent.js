@@ -43,8 +43,11 @@ export default function LoginContent() {
     onSubmit: async (values) => {
       const { login, password } = values;
 
+      const regex = /[.,/*+;'"_-]/g;
+      const filteredLogin = login.replace(regex, "");
+
       try {
-        const response = await api.post("/login", { login, password });
+        const response = await api.post("/login", { login: filteredLogin , password });
         console.log("response:", response.data);
 
         const { token, user_class, id, full_name } = response.data;
