@@ -4,14 +4,6 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 
 export default function HomeContent() {
-  const images = [
-    "https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-    "https://images.unsplash.com/photo-1485550409059-9afb054cada4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=701&q=80",
-    "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-    "https://images.unsplash.com/photo-1429087969512-1e85aab2683d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80",
-    "https://images.unsplash.com/photo-1505678261036-a3fcc5e884ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-  ];
-
   return (
     <div className={styles.content}>
       <header className={styles.header}>
@@ -51,22 +43,143 @@ export default function HomeContent() {
       </section>
       <section className={styles.about}>
         <div className={styles.gallery}>
-          <Carousel styles={{background: 'red'}} autoPlay={true} interval={2500} infiniteLoop={true}>
+          <Carousel
+            styles={{ background: "red" }}
+            autoPlay={true}
+            interval={2500}
+            infiniteLoop={true}
+          >
             <div>
-              <img src="/img/doctor.jpg"/>
-            </div>
-            <div >
-              <img src="/img/doctors.jpg"/>
+              <img src="/img/doctor.jpg" />
             </div>
             <div>
-              <img src="/img/doctors2.jpg"/>
+              <img src="/img/doctors.jpg" />
+            </div>
+            <div>
+              <img src="/img/doctors2.jpg" />
             </div>
           </Carousel>
           <img
             className={styles.circleAbout}
             src="/img/circle-pattern.svg"
             alt="pattern"
-            />
+          />
+        </div>
+        <div className={styles.aboutText}>
+          <h2>Sobre Nós</h2>
+          <h3>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+            sollicitudin, sapien id suscipit suscipit, urna ex sodales ante, nec
+            convallis nibh nisi a nibh. Aenean rutrum dui id dui varius, et
+            consequat risus congue. Pellentesque maximus eu arcu a maximus. Cras
+            ac diam pharetra, tincidunt nunc ac, mattis dolor. Donec ullamcorper
+            arcu et vestibulum tincidunt. Mauris finibus lacus vitae accumsan
+            euismod. Nullam ut eros sit amet sapien malesuada iaculis
+            condimentum scelerisque elit. Maecenas non ipsum nec massa rutrum
+            viverra. Nulla facilisi.
+          </h3>
+        </div>
+      </section>
+      <section className={styles.exams}>
+        <h2 className={styles.titleExam}>Exames</h2>
+        <div className={styles.first}>
+          <div className={styles.exam1}>
+            <img src="/img/exames/exame-sangue.png" alt="sangue" />
+            <p>
+              {" "}
+              <span className={styles.spans}>Exames</span> laboratorias em
+              geral.
+            </p>
+          </div>
+          <div className={styles.exam2}>
+            <img src="/img/exames/Raio-X.jpg" alt="raio-x" />
+            <p>
+              <span className={styles.spans}>Raio-x </span>é um exame não
+              invasivo para detecção de alteração da estrutura ossea
+            </p>
+          </div>
+          <div className={styles.exam3}>
+            <img src="/img/exames/teste-covid.jpg" alt="covid" />
+            <p>
+              {" "}
+              <span className={styles.spans}>Covid-19:</span> Testes rápido e de
+              sangue.
+            </p>
+          </div>
+        </div>
+        <div className={styles.second}>
+          <div className={styles.exam4}>
+            <img src="/img/exames/ressonancia.jpg" alt="ressonancia" />
+            <p>
+              <span className={styles.spans}>Ressonancia </span>é um exame de
+              imagem capaz de mostrar com definição as estruturas internas dos
+              órgãos.
+            </p>
+          </div>
+          <div className={styles.exam5}>
+            <img src="/img/exames/ultrasson.png" alt="ultrasson" />
+            <p>
+              <span className={styles.spans}>Ultrasson</span> é um exame de
+              imagem diagnóstico que serve para visualizar em tempo real
+              qualquer órgão ou tecido do corpo.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section className={styles.address}>
+        <img
+          className={styles.circleAddress}
+          src="/img/circle-pattern.svg"
+          alt="pattern"
+        />
+        <div className={styles.detailsAddress}>
+          <h2 className={styles.addressText}>Endereço</h2>
+          <div className={styles.icons}>
+            <i className="fas fa-hospital"></i>
+            <p>Rua dos Doidões, Bairro Muito Doido, N° 127</p>
+          </div>
+          <div className={styles.icons}>
+            <i className="fas fa-temperature-low"></i>
+            <p>Ambiente climatizado, para o seu conforto ao atende-lo!</p>
+          </div>
+          <div className={styles.icons}>
+            <i className="fas fa-futbol"></i>
+            <p>Sala com brinquedos e passa-tempo para as crianças!</p>
+          </div>
+        </div>
+        <div className={styles.maps}>
+          <img src="/img/maps.jpg" alt="mapa" />
+        </div>
+      </section>
+      <section className={styles.contacts}>
+        <div className={styles.email}>
+          <div className={styles.topEmail}>
+            <input placeholder="Nome" />
+            <input placeholder="Email" />
+          </div>
+          <div className={styles.bottomEmail}>
+            <input placeholder="Como podemos ajudar? Escreva sua dúvida!" />
+          </div>
+          <button className={styles.sendEmail}>Enviar Mensagem</button>
+        </div>
+        <div className={styles.social}>
+          <h2>Contatos</h2>
+          <div className={styles.icons}>
+            <i className="fas fa-phone"></i>
+            <p>(67) 0000-0000 ou (67) 0000-0000</p>
+          </div>
+          <div className={styles.icons}>
+            <i className="fab fa-instagram"></i>
+            <p>@Duck_Health</p>
+          </div>
+          <div className={styles.icons}>
+            <i className="fab fa-facebook"></i>
+            <p>Duck Health</p>
+          </div>
+          <div className={styles.icons}>
+            <i className="fab fa-linkedin"></i>
+            <p>Clinica Duck Health</p>
+          </div>
         </div>
       </section>
     </div>

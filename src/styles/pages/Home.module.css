@@ -146,3 +146,222 @@
   left: 60%;
   bottom: 200%;
 }
+
+.aboutText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  left: 18%;
+  bottom: 3%;
+  width: 35%;
+  height: 50%;
+}
+
+.aboutText > h2 {
+  color: var(--blue-text);
+  font-size: 2.8rem;
+}
+
+.aboutText > h3 {
+  color: #2e4a7db2;
+  margin-top: 2rem;
+  text-align: justify;
+}
+
+/* Exams */
+.exams {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--linear-gradient-primary);
+  border-top-right-radius: 150px;
+  border-bottom-left-radius: 150px;
+  padding-bottom: 1rem;
+}
+
+.titleExam {
+  position: relative;
+  right: 42%;
+  top: 5%;
+  font-size: 2.3rem;
+  font-weight: 800;
+  color: var(--blue-text);
+}
+
+.first {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 50%;
+  width: 80%;
+}
+
+.second {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 43%;
+  width: 80%;
+}
+
+.exams img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 3px solid var(--blue-buttom-sidebar);
+  margin-bottom: 16px;
+}
+
+.spans {
+  color: var(--blue-text);
+  font-weight: 800;
+}
+
+.exam1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--blue-text);
+  font-weight: 600;
+  width: 25%;
+  height: 100%;
+  font-size: 1.2rem;
+  margin-top: 1.5rem;
+}
+
+.exam2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--blue-text);
+  font-weight: 600;
+  width: 25%;
+  height: 100%;
+  font-size: 1.2rem;
+}
+
+.exam3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--blue-text);
+  font-weight: 600;
+  width: 25%;
+  height: 100%;
+  font-size: 1.2rem;
+  margin-top: 1.5rem;
+}
+
+.exam4 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--blue-text);
+  font-weight: 600;
+  width: 25%;
+  height: 100%;
+  font-size: 1.2rem;
+}
+
+.exam5 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--blue-text);
+  font-weight: 600;
+  width: 25%;
+  height: 100%;
+  font-size: 1.2rem;
+}
+
+/* Endereço */
+.address {
+  height: 65vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3rem 0;
+}
+
+.detailsAddress {
+  height: 500px;
+  position: relative;
+  left: -280px;
+}
+
+.addressText {
+  font-size: 2.8rem;
+  color: var(--blue-text);
+  margin-top: 1rem;
+  margin-bottom: 4.5rem;
+}
+
+.icons {
+  display: flex;
+  color: var(--blue-text);
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.icons i {
+  font-size: 1.8rem;
+  margin-right: 1rem;
+}
+
+.maps {
+  margin-right: 5rem;
+}
+
+.circleAddress {
+  position: relative;
+  top: -300px;
+  left: -250px;
+  z-index: -1;
+}
+
+/* Contatos */
+.contacts {
+  height: 45vh;
+  background: aqua;
+  display: flex;
+  align-items: center;
+  justify-content:space-around;
+}
+
+.email {
+  display: flex;
+  flex-direction: column;
+  background: tomato;
+  height: 50%;
+  width: 35%
+}
+
+.topEmail {
+  width:100%;
+  background: yellow;
+}
+
+.topEmail input {
+  display: flex;
+  width: 50%;
+  height: 40px;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.topEmail input:nth-child(1) {
+  margin-left: 5px;
+}
