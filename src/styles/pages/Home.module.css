@@ -5,7 +5,144 @@
 }
 
 .content {
-  display: flex;
-  position: relative;
   width: 100%;
+}
+
+.header {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 10vh;
+  width: 100%;
+  background-color: #15c3d6;
+  position: fixed;
+}
+
+.logoImage {
+  display: flex;
+  height: 60px;
+  width: 60px;
+  margin-left: 5%;
+  border-radius: 0.5rem;
+  background-color: #2e4a7d;
+  cursor: pointer;
+}
+
+.headerContent {
+  width: 30%;
+  margin-right: 3%;
+  display: flex;
+  justify-content: space-evenly;
+  color: white;
+}
+
+.headerContent h2 {
+  cursor: pointer;
+  padding: 0.5rem 0;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.headerContent h2:hover {
+  color: var(--blue-text);
+}
+
+/* banner */
+.banner {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--blue-sidebar);
+  border-bottom-left-radius: 150px;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  left: 5%;
+  top: 30%;
+  width: 25%;
+  height: 50%;
+}
+
+.description h1 {
+  color: var(--linear-gradient-primary);
+  font-size: 3rem;
+}
+
+.description h3 {
+  text-align: justify;
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  color: white;
+  align-self: center;
+}
+
+.buttonAccess {
+  width: 200px;
+  height: 55px;
+  border-radius: 0.5rem;
+  border: none;
+  background: var(--blue-buttom-sidebar);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 2.5rem;
+  cursor: pointer;
+}
+
+.buttonAccess > i {
+  font-size: 1.5rem;
+}
+
+.buttonAccess:hover {
+  color: var(--linear-gradient-primary);
+}
+
+.imageBanner {
+  position: relative;
+  top: 2%;
+  left: 1%;
+  height: 100%;
+  width: 80%;
+}
+
+.circle {
+  position: relative;
+  height: 60%;
+  width: 60%;
+  left: 83%;
+  bottom: 38%;
+}
+
+/* about */
+.about {
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  height: 90vh;
+}
+
+.gallery {
+  position: relative;
+  left: 6%;
+  bottom: 5%;
+  width: 40%;
+  height: 55%;
+}
+
+.circleAbout {
+  z-index: -1;
+  position: relative;
+  left: 60%;
+  bottom: 200%;
 }

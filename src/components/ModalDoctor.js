@@ -69,13 +69,12 @@ export const ModalDoctor = forwardRef((props, ref) => {
     },
     validationSchema: validationSchemaDoctor,
     onSubmit: (values) => {
-      if(typeModal === "register"){
+      if (typeModal === "register") {
         handleAdd("Médicos", values);
         setSuccess(true); /*snackbar */
-      }else{
+      } else {
         handleEdit("Médicos", values, user.id);
       }
-      
       handleClose();
     },
   });
@@ -210,7 +209,7 @@ export const ModalDoctor = forwardRef((props, ref) => {
             fullWidth
             type="submit"
           >
-            {typeModal === "register" ? 'Cadastrar' : 'Salvar'} 
+            {typeModal === "register" ? "Cadastrar" : "Salvar"}
           </Button>
         </form>
       </div>
