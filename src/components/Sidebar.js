@@ -25,12 +25,13 @@ export default function Sidebar(props) {
 
   return (
     <aside className={styles.container}>
+      <Link to="/home" style={{textDecoration: 'none'}}>
       <img
-        onClick={() => console.log("cliclado!")}
         className={styles.logo}
         src="img/DuckHealth_PNG.png"
         alt="duck"
-      ></img>
+        />
+      </Link>
       {mode !== "extended" ? <></> : extendOptions(location.pathname)}
 
       {loc.includes('/doctor/upload/') ? (

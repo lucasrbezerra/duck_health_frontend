@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 .container {
   display: flex;
   height: 100vh;
@@ -298,14 +302,15 @@
 .detailsAddress {
   height: 500px;
   position: relative;
-  left: -280px;
+  left: -300px;
+  top: 4rem;
 }
 
 .addressText {
   font-size: 2.8rem;
   color: var(--blue-text);
   margin-top: 1rem;
-  margin-bottom: 4.5rem;
+  margin-bottom: 3.5rem;
 }
 
 .icons {
@@ -335,7 +340,6 @@
 /* Contatos */
 .contacts {
   height: 45vh;
-  background: aqua;
   display: flex;
   align-items: center;
   justify-content:space-around;
@@ -344,24 +348,87 @@
 .email {
   display: flex;
   flex-direction: column;
-  background: tomato;
-  height: 50%;
-  width: 35%
+  height: 75%;
+  width: 40%
 }
 
 .topEmail {
-  width:100%;
-  background: yellow;
-}
-
-.topEmail input {
   display: flex;
-  width: 50%;
-  height: 40px;
-  border: none;
-  border-radius: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  width:100%;
 }
 
 .topEmail input:nth-child(1) {
-  margin-left: 5px;
+  height: 40px;
+  width: 45%;
+  border: none;
+  border-radius: 0.5rem;
+  text-indent: 1rem;
+  font-size: 1rem;
+}
+
+.topEmail input:nth-child(2) {
+  height: 40px;
+  width: 45%;
+  font-size: 1rem;
+  margin-left: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  text-indent: 1rem;
+}
+
+.bottomEmail {
+  display: flex;
+  height: 100%;
+  margin-top: 1rem;
+}
+
+.bottomEmail > textarea {
+  width: 100%;
+  border: none;
+  margin: 0 1.5rem;
+  border-radius: 0.5rem;
+  text-indent: 1rem;
+  font-size: 1.2rem;
+}
+
+.sendEmail {
+  margin: 0.5rem 1.2rem;
+  height: 3.5rem;
+  border: none;
+  cursor: pointer;
+  background-color: var(--blue-buttom-sidebar);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+}
+
+.sendEmail:hover {
+  background-color: #2757af;
+}
+
+
+.social h2 {
+  font-size: 2rem;
+  color: var(--blue-buttom-sidebar);
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  align-items: center;
+  background-color: var(--blue-sidebar);
+  padding: 1rem 0;
+  border-top-right-radius: 150px;
+}
+
+.footer img {
+  width: 80px;
+  height: 80px;
+  margin-left: 3.5rem;
+  background: var(--blue-buttom-sidebar);
+  border-radius: 1rem;
+  cursor: pointer;
 }

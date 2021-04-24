@@ -2,22 +2,32 @@ import React from "react";
 import styles from "../../styles/pages/Home.module.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
+import { Link } from "react-router-dom";
 
 export default function HomeContent() {
+  function scrollToSection(section) {
+    document
+      .getElementById(section)
+      .scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
   return (
     <div className={styles.content}>
       <header className={styles.header}>
         <div className={styles.logoImage}>
-          <img src="img/DuckHealth_PNG.png"></img>
+          <img
+            onClick={() => scrollToSection("banner")}
+            src="img/DuckHealth_PNG.png"
+          ></img>
         </div>
         <div className={styles.headerContent}>
-          <h2>Início</h2>
-          <h2>Sobre</h2>
-          <h2>Exames</h2>
-          <h2>Contato</h2>
+          <h2 onClick={() => scrollToSection("banner")}>Início</h2>
+          <h2 onClick={() => scrollToSection("about")}>Sobre</h2>
+          <h2 onClick={() => scrollToSection("exams")}>Exames</h2>
+          <h2 onClick={() => scrollToSection("contacts")}>Contato</h2>
         </div>
       </header>
-      <section className={styles.banner}>
+      <section id="banner" className={styles.banner}>
         <div className={styles.description}>
           <h1>Duck Health</h1>
           <h3>
@@ -25,10 +35,12 @@ export default function HomeContent() {
             lacinia euismod imperdiet. Pellentesque vel ultricies ante. lacinia
             euismod imperdiet. ultricies ante.
           </h3>
-          <button className={styles.buttonAccess}>
-            <i className="fas fa-file-contract"></i>
-            Acessar Laudos
-          </button>
+          <Link to="/login" style={{ textDecoration: "none" }}>
+            <button className={styles.buttonAccess}>
+              <i className="fas fa-file-contract"></i>
+              Acessar Laudos
+            </button>
+          </Link>
         </div>
         <img
           className={styles.circle}
@@ -41,7 +53,7 @@ export default function HomeContent() {
           alt="banner"
         />
       </section>
-      <section className={styles.about}>
+      <section id="about" className={styles.about}>
         <div className={styles.gallery}>
           <Carousel
             styles={{ background: "red" }}
@@ -80,7 +92,7 @@ export default function HomeContent() {
           </h3>
         </div>
       </section>
-      <section className={styles.exams}>
+      <section id="exams" className={styles.exams}>
         <h2 className={styles.titleExam}>Exames</h2>
         <div className={styles.first}>
           <div className={styles.exam1}>
@@ -111,7 +123,7 @@ export default function HomeContent() {
           <div className={styles.exam4}>
             <img src="/img/exames/ressonancia.jpg" alt="ressonancia" />
             <p>
-              <span className={styles.spans}>Ressonancia </span>é um exame de
+              <span className={styles.spans}>Ressonância </span>é um exame de
               imagem capaz de mostrar com definição as estruturas internas dos
               órgãos.
             </p>
@@ -119,7 +131,7 @@ export default function HomeContent() {
           <div className={styles.exam5}>
             <img src="/img/exames/ultrasson.png" alt="ultrasson" />
             <p>
-              <span className={styles.spans}>Ultrasson</span> é um exame de
+              <span className={styles.spans}>Ultrassom</span> é um exame de
               imagem diagnóstico que serve para visualizar em tempo real
               qualquer órgão ou tecido do corpo.
             </p>
@@ -151,14 +163,14 @@ export default function HomeContent() {
           <img src="/img/maps.jpg" alt="mapa" />
         </div>
       </section>
-      <section className={styles.contacts}>
+      <section id="contacts" className={styles.contacts}>
         <div className={styles.email}>
           <div className={styles.topEmail}>
             <input placeholder="Nome" />
             <input placeholder="Email" />
           </div>
           <div className={styles.bottomEmail}>
-            <input placeholder="Como podemos ajudar? Escreva sua dúvida!" />
+            <textarea placeholder="Como podemos ajudar? Escreva sua dúvida!" />
           </div>
           <button className={styles.sendEmail}>Enviar Mensagem</button>
         </div>
@@ -181,6 +193,13 @@ export default function HomeContent() {
             <p>Clinica Duck Health</p>
           </div>
         </div>
+      </section>
+      <section className={styles.footer}>
+        <img
+          onClick={() => scrollToSection("banner")}
+          src="/img/DuckHealth_PNG.png"
+          alt="logo"
+        />
       </section>
     </div>
   );
