@@ -3,6 +3,10 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+html {
+  scroll-behavior: smooth;
+}
  
 :root {
   --bg: #ebf2f5;
